@@ -4,35 +4,43 @@ import {
   LayoutDashboard, User, Map, FileText, Briefcase,
   ClipboardList, MessageSquare, Globe, Mic, Sun, Moon,
   LogOut, Bell, Menu, X, ChevronRight, Star, Trash2,
-  IndianRupee, Landmark, FileSearch, GitBranch, Target, CheckCheck
+  IndianRupee, Landmark, FileSearch, GitBranch, Target, CheckCheck,
+  Trophy, ArrowLeftRight, GraduationCap, Brain, TrendingUp, Languages
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
+import { useLanguageStore, LANGUAGES } from '@/store/languageStore'
 import FeedbackModal from '@/components/common/FeedbackModal'
 import api from '@/services/api'
 import toast from 'react-hot-toast'
 
 const navItems = [
-  { path: '/student',                label: 'Dashboard',      icon: LayoutDashboard, exact: true },
-  { path: '/student/profile',        label: 'My Profile',     icon: User },
-  { path: '/student/roadmap',        label: 'Career Roadmap', icon: GitBranch },
-  { path: '/student/resume',         label: 'Resume Builder', icon: FileText },
-  { path: '/student/resume-score',   label: 'Resume Score',   icon: FileSearch },
-  { path: '/student/jobs',           label: 'Job Explorer',   icon: Briefcase },
-  { path: '/student/applications',   label: 'Applications',   icon: ClipboardList },
-  { section: 'AI Tools' },
-  { path: '/student/skill-gap',      label: 'Skill Gap',      icon: Target },
-  { path: '/student/salary-insights',label: 'Salary Insights', icon: IndianRupee },
-  { path: '/student/govt-jobs',      label: 'Govt Jobs',      icon: Landmark },
-  { path: '/student/mock-interview', label: 'Mock Interview', icon: Mic },
-  { section: 'Other' },
-  { path: '/student/messages',       label: 'Messages',       icon: MessageSquare },
-  { path: '/student/portfolio',      label: 'My Portfolio',   icon: Globe },
+  { path: '/student',                label: 'dashboard',      icon: LayoutDashboard, exact: true },
+  { path: '/student/profile',        label: 'myProfile',      icon: User },
+  { path: '/student/roadmap',        label: 'careerRoadmap',  icon: GitBranch },
+  { path: '/student/resume',         label: 'resumeBuilder',  icon: FileText },
+  { path: '/student/resume-score',   label: 'resumeScore',    icon: FileSearch },
+  { path: '/student/jobs',           label: 'jobExplorer',    icon: Briefcase },
+  { path: '/student/applications',   label: 'applications',   icon: ClipboardList },
+  { section: 'aiTools' },
+  { path: '/student/skill-gap',      label: 'skillGap',       icon: Target },
+  { path: '/student/salary-insights',label: 'salaryInsights',  icon: IndianRupee },
+  { path: '/student/govt-jobs',      label: 'govtJobs',       icon: Landmark },
+  { path: '/student/mock-interview', label: 'mockInterview',  icon: Mic },
+  { path: '/student/skill-quiz',     label: 'skillQuiz',      icon: Brain },
+  { section: 'other' },
+  { path: '/student/career-compare', label: 'careerCompare',  icon: ArrowLeftRight },
+  { path: '/student/scholarships',   label: 'scholarships',   icon: GraduationCap },
+  { path: '/student/industry-trends',label: 'industryTrends', icon: TrendingUp },
+  { path: '/student/achievements',   label: 'achievements',   icon: Trophy },
+  { path: '/student/messages',       label: 'messages',       icon: MessageSquare },
+  { path: '/student/portfolio',      label: 'myPortfolio',    icon: Globe },
 ]
 
 export default function StudentLayout() {
   const { user, logout }        = useAuthStore()
   const { isDark, toggleTheme } = useThemeStore()
+  const { lang, setLang, t }    = useLanguageStore()
   const location                = useLocation()
   const navigate                = useNavigate()
   const [sidebarOpen, setSidebarOpen]       = useState(false)
@@ -149,7 +157,7 @@ export default function StudentLayout() {
           if (item.section) {
             return (
               <p key={item.section} className="text-xs font-body font-semibold uppercase tracking-wider px-3 pt-4 pb-1"
-                style={{ color: 'var(--text-muted)' }}>{item.section}</p>
+                style={{ color: 'var(--text-muted)' }}>{t(item.section)}</p>
             )
           }
           const { path, label, icon: Icon } = item
@@ -162,45 +170,56 @@ export default function StudentLayout() {
               onMouseOver={e => { if (!active) { e.currentTarget.style.background = 'var(--accent-light)'; e.currentTarget.style.color = 'var(--text-primary)' } }}
               onMouseOut={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' } }}>
               <Icon size={17} />
-              <span className="flex-1">{label}</span>
+              <span className="flex-1">{t(label)}</span>
               {active && <ChevronRight size={14} />}
             </Link>
           )
         })}
       </nav>
 
-      {/* Bottom actions */}
-      <div className="p-3 border-t space-y-1" style={{ borderColor: 'var(--border-subtle)' }}>
-        {/* ✅ Feedback */}
+      {/* Bottom actions — compact */}
+      <div className="p-2 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+        {/* Feedback */}
         <FeedbackModal />
 
-        <button onClick={toggleTheme}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm w-full transition-all duration-200"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'var(--accent-light)'; e.currentTarget.style.color = 'var(--text-primary)' }}
-          onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
-          {isDark ? <Sun size={17} /> : <Moon size={17} />}
-          {isDark ? 'Light Mode' : 'Dark Mode'}
-        </button>
+        {/* Theme + Language — single row */}
+        <div className="flex items-center gap-1 px-1 py-1">
+          <button onClick={toggleTheme}
+            className="flex items-center justify-center w-9 h-9 rounded-lg transition-all"
+            style={{ color: 'var(--text-secondary)', background: 'var(--bg-input)' }}
+            title={isDark ? t('lightMode') : t('darkMode')}>
+            {isDark ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
+          <div className="flex items-center gap-1.5 flex-1 px-2 py-1.5 rounded-lg" style={{ background: 'var(--bg-input)' }}>
+            <Languages size={14} style={{ color: 'var(--text-muted)' }} />
+            <select value={lang} onChange={e => setLang(e.target.value)}
+              className="flex-1 bg-transparent font-body text-xs outline-none cursor-pointer"
+              style={{ color: 'var(--text-secondary)' }}>
+              {LANGUAGES.map(l => (
+                <option key={l.code} value={l.code}>{l.flag} {l.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-        {/* ✅ Delete Account */}
-        <button onClick={() => setShowDeleteConfirm(true)}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm w-full transition-all duration-200"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
-          onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
-          <Trash2 size={17} />
-          Delete Account
-        </button>
-
-        <button onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm w-full transition-all duration-200"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
-          onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
-          <LogOut size={17} />
-          Sign Out
-        </button>
+        {/* Delete + Logout — single row */}
+        <div className="flex items-center gap-1 px-1 py-1">
+          <button onClick={() => setShowDeleteConfirm(true)}
+            className="flex items-center justify-center w-9 h-9 rounded-lg transition-all"
+            style={{ color: 'var(--text-muted)' }}
+            title="Delete Account"
+            onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
+            onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}>
+            <Trash2 size={15} />
+          </button>
+          <button onClick={handleLogout}
+            className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg font-body text-xs font-semibold transition-all"
+            style={{ color: 'var(--text-muted)' }}
+            onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
+            onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}>
+            <LogOut size={14} /> {t('logout')}
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -269,10 +288,10 @@ export default function StudentLayout() {
             </button>
             <div>
               <h1 className="font-display font-bold text-base" style={{ color: 'var(--text-primary)' }}>
-                {navItems.find(i => isActive(i))?.label || 'Dashboard'}
+                {t(navItems.find(i => isActive(i))?.label || 'dashboard')}
               </h1>
               <p className="font-body text-xs hidden sm:block" style={{ color: 'var(--text-muted)' }}>
-                Welcome back, {user?.name?.split(' ')[0] || 'Student'} 👋
+                {t('welcome')}, {user?.name?.split(' ')[0] || 'Student'} 👋
               </p>
             </div>
           </div>

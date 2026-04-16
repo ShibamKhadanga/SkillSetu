@@ -1,6 +1,6 @@
 # SkillSetu — Kaushal se Rojgar tak 🌉
 
-> **AI-powered career bridge platform connecting Indian students to dream jobs — from learning roadmap to resume to placement, all in one place.**
+> **AI-powered career bridge platform connecting Indian students to dream jobs — from career guidance to resume to placement, all in one place.**
 
 Built for **Smart India Hackathon (SIH) 2026** | Team from Kalinga University, Raipur
 
@@ -8,87 +8,81 @@ Built for **Smart India Hackathon (SIH) 2026** | Team from Kalinga University, R
 
 ## 🚀 What is SkillSetu?
 
-SkillSetu solves the critical problems Indian students face after 10th/12th — **"What should I study? What career path fits me? How do I get hired?"**
+India produces **1 crore+ graduates every year**, but most face the same 4 problems:
 
 | Problem | SkillSetu Solution |
 |---|---|
-| Don't know what to study after 10th/12th | Interactive Career Roadmap — visual education flowchart with every Indian stream, degree, exam & job role |
-| Can't figure out skill gaps | AI Skill Gap Analyzer — compare your skills vs job requirements instantly |
-| Can't make a good resume | AI Resume Builder — one click, ATS-optimized PDF with 4 templates |
-| Waste hours on applications | One-Click Apply — AI auto-fills every form field |
-| No idea about salaries | AI Salary Insights — real data for any role, city & experience level |
-| Miss government job deadlines | Govt Job Finder — AI finds matching exams (SSC, UPSC, IBPS, etc.) |
-| Miss opportunities | WhatsApp + SMS alerts the moment a recruiter contacts them |
+| Don't know what to study after 10th/12th | 🗺️ Interactive Career Roadmap — visual education flowchart covering every Indian stream |
+| Can't figure out skill gaps | 📊 AI Skill Gap Analyzer — compare your skills vs job requirements |
+| Can't make a good resume | 📄 AI Resume Builder — one click, ATS-optimized PDF |
+| Miss opportunities & govt exams | 🏛️ Govt Job Finder + 🎓 Scholarship Finder + 📱 WhatsApp alerts |
+| No idea about market trends | 📈 Industry Trends Dashboard + 💰 Salary Insights |
+| Don't know which career is better | 📊 Career Comparison Tool — side-by-side analysis |
 
-Recruiters face the opposite — too many unqualified applications. SkillSetu's AI ranks ALL students by match score instantly.
+**For Recruiters:** AI ranks ALL students by match score — find the right candidate in seconds.
 
 ---
 
-## ✨ Features
+## ✨ Features (30+ Total)
 
 ### 👨‍🎓 Student / Candidate
 
 | Feature | Description |
 |---|---|
-| 🗺️ **Career Roadmap** | 3-tab comprehensive career guidance system (see details below) |
-| 📊 **AI Skill Gap Analyzer** | Select any job → AI compares your skills vs requirements → shows matched, missing & learning resources |
-| 🏛️ **Govt Job Finder** | Enter field + education + state → AI finds matching govt exams (UPSC, SSC, IBPS, Railway, State PSC) |
-| 💰 **Salary Insights** | Enter any role → AI shows fresher/mid/senior salary, top companies, top cities, market trend |
-| 📄 **AI Resume Builder** | One click → professional ATS-optimized resume → center-aligned header → downloadable PDF (4 templates) |
-| 📊 **Resume Score Checker** | Upload PDF/TXT or paste text → AI scores resume (content, structure, skills, achievements) → improvement tips |
-| 🤖 **AI Skill Extractor** | Upload certificates, projects, degrees → AI detects hidden skills automatically |
-| 💼 **Job Explorer** | All jobs ranked by AI match score (0–100%) based on your skills |
+| 🗺️ **Career Roadmap** | 3-tab system: Pathway Explorer (tree) + Horizontal Flowchart + AI Personalized Phases |
+| 📊 **Career Comparison** | Side-by-side compare any 2 paths — B.Tech vs BCA, MBBS vs B.Pharm, CA vs MBA |
+| 📊 **AI Skill Gap Analyzer** | Select any job → AI shows matched skills, missing skills & free learning resources |
+| 🏛️ **Govt Job Finder** | Enter background → AI finds matching exams (UPSC, SSC, IBPS, Railway, State PSC) |
+| 🎓 **Scholarship Finder** | AI finds scholarships by category (SC/ST/OBC/EWS/General), education & income |
+| 💰 **Salary Insights** | AI shows fresher/mid/senior salary, top companies, cities & market trends |
+| 📈 **Industry Trends** | Live dashboard — skill demand index, hottest roles, top hiring cities in India |
+| 🧪 **Skill Assessment Quiz** | 6 quizzes (Python, React, SQL, JS, DSA, GK India) — instant score & level |
+| 🏆 **Achievement Badges** | 10 milestones with progress bar — Profile Pro, Resume Master, Dream Achieved 🏆 |
+| 📄 **AI Resume Builder** | One click → professional ATS-optimized resume → downloadable PDF (4 templates) |
+| 📊 **Resume Score Checker** | Upload PDF/TXT → AI scores resume (content, structure, skills) → improvement tips |
+| 🤖 **AI Skill Extractor** | Upload certificates/projects → AI detects hidden skills automatically |
+| 💼 **Job Explorer** | All jobs ranked by AI match score (0–100%) |
 | ⚡ **One-Click Apply** | AI pre-fills every application field → review → send |
-| 📋 **Application Tracker** | Track all applications — Applied, Reviewing, Interview, Offered, Rejected |
-| 🎤 **AI Mock Interview** | Chat-based AI interviewer → scored out of 10 per answer → final score out of 100 |
-| 🌐 **Public Portfolio** | Auto-generated shareable profile page like a personal LinkedIn |
-| 📱 **WhatsApp + SMS Alerts** | Instant alerts when recruiters contact you or new matching jobs are posted |
-| 💬 **In-Platform Messaging** | Chat directly with recruiters inside SkillSetu |
-| ⭐ **Rate SkillSetu** | Submit feedback with star rating — public reviews shown on landing page |
-| 🗑️ **Delete Account** | Permanently delete account and all data from settings |
+| 📋 **Application Tracker** | Track applications — Applied, Reviewing, Interview, Offered, Rejected |
+| 🎤 **AI Mock Interview** | Chat-based AI interviewer → scored out of 10 per answer → final score /100 |
+| 🌐 **Public Portfolio** | Auto-generated shareable profile page |
+| 📱 **WhatsApp + SMS Alerts** | Instant alerts when recruiters contact you or new jobs match |
+| 💬 **In-Platform Messaging** | Chat directly with recruiters |
+| 🌍 **Multi-Language** | Full UI in English, Hindi, Tamil, Telugu & Bengali |
+| ⭐ **Rate SkillSetu** | Feedback with star rating — reviews shown on landing page |
+| 🗑️ **Delete Account** | GDPR-style permanent account deletion |
 
 ### 🗺️ Career Roadmap — Deep Dive
 
 The Career Roadmap has **3 interactive tabs**:
 
 #### Tab 1: Pathway Explorer (Tree View)
-- Expandable tree: **10th → 12th (Science PCM/PCB / Commerce / Arts) / ITI / Diploma**
-- Each node shows: duration, entrance exams, available courses
-- **Interactive subject chips** — click "PCM" to filter and show only PCM-relevant children
-- **"I am here" marker (📍)** — mark your current position in the tree
-- Degree paths covered:
-  - **Science PCM**: B.Tech, B.Sc, NDA, **BCA → MCA**
-  - **Science PCB**: MBBS, BDS, **B.Pharm / D.Pharm**, **B.Sc Nursing**, **BPT (Physiotherapy)**, B.Sc (Agri/Bio/Biotech), B.V.Sc
-  - **Commerce**: B.Com, CA, CS, BBA → MBA, CMA
-  - **Arts**: BA → MA, UPSC Civil Services, BA LLB, B.Des / Fine Arts, B.Ed, BSW
-  - **Diploma**: Lateral Entry → B.Tech (2nd Year), Govt Junior Engineer
-  - **ITI**: Apprenticeship, Railway Technician, Govt Technical Posts
+- Expandable tree: **10th → 12th (PCM/PCB/Commerce/Arts) / ITI / Diploma**
+- Interactive subject chips — click "PCM" to filter children
+- **"I am here" marker (📍)** — mark your current position
+- Streams covered: B.Tech, BCA→MCA, MBBS, BDS, B.Pharm/D.Pharm, B.Sc Nursing, BPT, CA, CS, BA LLB, B.Des, B.Ed, UPSC, NDA, ITI, Diploma→Lateral Entry B.Tech
 - Terminal nodes show **job roles with salary ranges**
 
-#### Tab 2: Flowchart (Horizontal Step-by-Step)
+#### Tab 2: Flowchart (Horizontal)
 - **Left-to-right horizontal flow** — visually traces your path
-- Uses the **same unified data** as Pathway Explorer (PATHWAY_TREE)
-- Click nodes to select → siblings dim → next level appears to the right
-- Interactive course chips with collapse/change behavior
-- Career outcomes panel appears at the end of your selected path
-- Breadcrumb trail shows your complete path
+- Uses same unified PATHWAY_TREE data
+- Interactive node selection with career outcomes at the end
 
-#### Tab 3: AI Phases (Personalized Roadmap)
-- Enter your dream job role → AI generates a **phase-by-phase learning path**
-- Includes: Indian exams (JEE, GATE, CUET, NEET), NPTEL courses, FreeCodeCamp, YouTube channels
-- Personalized based on your profile skills
+#### Tab 3: AI Phases (Personalized)
+- Enter dream job → AI generates phase-by-phase learning path
+- Indian exams (JEE, GATE, CUET, NEET), NPTEL, FreeCodeCamp, YouTube channels
 
 ### 🏢 Recruiter / Company
 
 | Feature | Description |
 |---|---|
-| 📝 **Post a Job** | Fill requirements → AI auto-writes the job description |
-| 🤖 **AI Candidate Matching** | AI instantly ranks ALL students by match % for your job |
-| 📣 **Auto-Notify on Post** | Platform automatically sends WhatsApp alerts to all matching students (70%+ match) |
-| 👥 **Candidate Dashboard** | View shortlisted candidates with full resume + portfolio |
-| 📋 **Application Manager** | Filter by job post → update status → candidates auto-notified |
-| 💬 **In-Platform Messaging** | Message candidates directly |
-| 📈 **Analytics Dashboard** | Job views, application trends, hiring funnel, top skills |
+| 📝 **Post a Job** | Fill requirements → AI auto-writes job description |
+| 🤖 **AI Candidate Matching** | AI ranks ALL students by match % |
+| 📣 **Auto-Notify** | WhatsApp alerts to matching students (70%+ match) |
+| 👥 **Candidate Dashboard** | View shortlisted candidates with resume + portfolio |
+| 📋 **Application Manager** | Filter by job → update status → auto-notify candidates |
+| 💬 **Messaging** | Message candidates directly |
+| 📈 **Analytics Dashboard** | Job views, trends, hiring funnel, top skills |
 
 ---
 
@@ -96,17 +90,17 @@ The Career Roadmap has **3 interactive tabs**:
 
 | AI Feature | Technology |
 |---|---|
-| Career Roadmap Generation | Google Gemini 1.5 Flash (free) |
-| Resume Writing | Google Gemini 1.5 Flash (free) |
-| Resume Scoring & Analysis | Google Gemini 1.5 Flash (free) |
-| Skill Extraction from Documents | Google Gemini 1.5 Flash (free) |
-| Skill Gap Analysis | Google Gemini 1.5 Flash (free) |
-| Mock Interview & Scoring | Google Gemini 1.5 Flash (free) |
-| Job Description Generation | Google Gemini 1.5 Flash (free) |
-| Salary Insights | Google Gemini 1.5 Flash (free) |
-| Government Job Finder | Google Gemini 1.5 Flash (free) |
-| Smart Job Match Alerts | Gemini + Custom Algorithm → WhatsApp via Twilio |
-| Job-Candidate Matching | Custom fuzzy matching algorithm |
+| Career Roadmap | Google Gemini 1.5 Flash |
+| Resume Writing & Scoring | Google Gemini 1.5 Flash |
+| Skill Extraction | Google Gemini 1.5 Flash |
+| Skill Gap Analysis | Google Gemini 1.5 Flash |
+| Mock Interview | Google Gemini 1.5 Flash |
+| JD Generation | Google Gemini 1.5 Flash |
+| Salary Insights | Google Gemini 1.5 Flash |
+| Govt Job Finder | Google Gemini 1.5 Flash |
+| Scholarship Finder | Google Gemini 1.5 Flash |
+| Job Match Alerts | Gemini + Algorithm → WhatsApp via Twilio |
+| Candidate Matching | Custom fuzzy matching algorithm |
 | Fallback AI | Groq Llama3 (free) |
 
 ---
@@ -116,14 +110,15 @@ The Career Roadmap has **3 interactive tabs**:
 | Layer | Technology |
 |---|---|
 | Frontend | React 18, Vite, Tailwind CSS |
-| State Management | Zustand |
-| Backend | Python FastAPI |
-| Database | SQLite (zero setup, file-based) |
+| State Management | Zustand (+ persist for language/theme) |
+| Backend | Python FastAPI (async) |
+| Database | SQLite (zero setup) → PostgreSQL (production) |
 | AI | Google Gemini 1.5 Flash (free tier) |
 | Notifications | Twilio (WhatsApp + SMS) |
 | File Storage | Cloudinary |
-| Auth | JWT + Google Sign-In (Firebase) |
+| Auth | JWT + bcrypt |
 | PDF Generation | ReportLab |
+| Multi-Language | Custom i18n store (5 languages) |
 
 ---
 
@@ -132,9 +127,9 @@ The Career Roadmap has **3 interactive tabs**:
 - **Light Theme** — Orange + White (energetic, professional)
 - **Dark Theme** — Neon Cyan + Dark (modern, tech-focused)
 - Fully responsive — mobile, tablet, desktop
-- Smooth animations, glassmorphism UI cards
-- Horizontal scrollable flowchart with interactive chip selection
-- Collapsible tree nodes with depth-based indentation
+- Glassmorphism cards, smooth micro-animations
+- Horizontal scrollable flowchart with interactive chips
+- Compact sidebar with language selector
 
 ---
 
@@ -161,10 +156,10 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in the `backend/` folder:
+Create a `.env` file in `backend/`:
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
 JWT_SECRET=your_secret_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
 TWILIO_ACCOUNT_SID=optional
 TWILIO_AUTH_TOKEN=optional
 ```
@@ -175,14 +170,12 @@ uvicorn main:app --reload --port 8000
 ```
 
 ### 3. Seed Demo Data
-Open a new terminal:
 ```bash
 cd backend
 python seed.py
 ```
 
 ### 4. Frontend Setup
-Open another terminal:
 ```bash
 cd frontend
 npm install
@@ -202,13 +195,13 @@ http://localhost:5173
 
 | Role | Email | What to see |
 |---|---|---|
-| 👨‍🎓 CS Student | `priya@demo.com` | Interview scheduled, messages from TechCorp |
-| 👨‍🎓 ML Engineer | `rahul@demo.com` | Job OFFER from AI Solutions! |
-| 👨‍🎓 CA Student | `ananya@demo.com` | Career Roadmap → Commerce path → CA route |
-| 👩‍⚕️ MBBS Student | `kavitha@demo.com` | Career Roadmap → Science PCB → MBBS / D.Pharm / Nursing |
-| ⚖️ Law Student | `meera@demo.com` | Career Roadmap → Arts → CLAT → Legal careers |
-| 🏢 Recruiter | `hr@techcorp.demo` | 4 applications, 2 active jobs, messages |
-| 🏢 Recruiter | `hr@aisolutions.demo` | 2 applications, 2 active jobs |
+| 👨‍🎓 CS Student | `priya@demo.com` | Full student experience, messages from TechCorp |
+| 👨‍🎓 ML Engineer | `rahul@demo.com` | Job OFFER received! |
+| 👨‍🎓 CA Student | `ananya@demo.com` | Career Roadmap → Commerce → CA path |
+| 👩‍⚕️ MBBS Student | `kavitha@demo.com` | Science PCB → MBBS / D.Pharm / Nursing |
+| ⚖️ Law Student | `meera@demo.com` | Arts → CLAT → Legal careers |
+| 🏢 Recruiter | `hr@techcorp.demo` | 4 applications, 2 jobs, messages |
+| 🏢 Recruiter | `hr@aisolutions.demo` | 2 applications, 2 jobs |
 
 ---
 
@@ -217,58 +210,24 @@ http://localhost:5173
 ```
 SkillSetu/
 ├── backend/
-│   ├── config/          # DB, settings, Gemini config
-│   ├── models/          # SQLAlchemy models (User, Job, Application, Feedback...)
-│   ├── routes/          # API route modules
-│   │   ├── auth_routes.py
-│   │   ├── student_routes.py
-│   │   ├── recruiter_routes.py
-│   │   ├── job_routes.py
-│   │   ├── application_routes.py
-│   │   ├── ai_routes.py         # Roadmap, Resume, SkillGap, Salary, GovtJobs, Interview
-│   │   ├── message_routes.py
-│   │   ├── notification_routes.py
-│   │   └── feedback_routes.py
-│   ├── services/
-│   │   ├── gemini_service.py    # All AI prompt engineering (Gemini 1.5 Flash)
-│   │   ├── matching_service.py  # Fuzzy skill-job matching algorithm
-│   │   └── resume_service.py    # PDF generation with ReportLab
+│   ├── config/          # DB, settings, Gemini, Cloudinary config
+│   ├── models/          # SQLAlchemy models
+│   ├── routes/          # API routes (auth, student, recruiter, ai, jobs, etc.)
+│   ├── services/        # Gemini AI, matching, resume PDF generation
 │   ├── utils/           # JWT, response helpers
-│   ├── main.py          # FastAPI app entry point
+│   ├── main.py          # FastAPI entry point
 │   ├── seed.py          # Demo data seeder
 │   └── requirements.txt
 │
-├── frontend/
-│   └── src/
-│       ├── components/
-│       │   ├── layouts/     # StudentLayout, RecruiterLayout
-│       │   └── common/      # FeedbackModal
-│       ├── pages/
-│       │   ├── Landing.jsx       # Public homepage with reviews
-│       │   ├── auth/             # Login, Register
-│       │   ├── student/
-│       │   │   ├── StudentDashboard.jsx
-│       │   │   ├── StudentProfile.jsx
-│       │   │   ├── Roadmap.jsx          # Pathway Explorer + Flowchart + AI Phases
-│       │   │   ├── ResumeBuilder.jsx
-│       │   │   ├── ResumeScore.jsx      # Resume checker with upload
-│       │   │   ├── SkillGap.jsx         # AI Skill Gap Analyzer
-│       │   │   ├── SalaryInsights.jsx   # AI Salary data
-│       │   │   ├── GovtJobs.jsx         # Government Job Finder
-│       │   │   ├── JobExplorer.jsx
-│       │   │   ├── Applications.jsx
-│       │   │   ├── MockInterview.jsx
-│       │   │   ├── Portfolio.jsx
-│       │   │   └── StudentMessages.jsx
-│       │   └── recruiter/
-│       │       ├── RecruiterDashboard.jsx
-│       │       ├── PostJob.jsx
-│       │       ├── Candidates.jsx
-│       │       ├── RecruiterApplications.jsx
-│       │       ├── Analytics.jsx
-│       │       └── RecruiterMessages.jsx
-│       ├── store/           # Zustand state (auth, theme)
-│       └── services/        # Axios API client
+├── frontend/src/
+│   ├── components/layouts/   # StudentLayout, RecruiterLayout
+│   ├── pages/
+│   │   ├── Landing.jsx
+│   │   ├── auth/             # Login, Register
+│   │   ├── student/          # 18 pages (Dashboard, Roadmap, Resume, SkillGap, Quiz, etc.)
+│   │   └── recruiter/        # 6 pages (Dashboard, PostJob, Candidates, etc.)
+│   ├── store/                # Zustand (auth, theme, language)
+│   └── services/             # Axios API client
 │
 ├── .gitignore
 └── README.md
@@ -278,26 +237,17 @@ SkillSetu/
 
 ## 🔌 API Endpoints
 
-The backend exposes a full REST API. View interactive docs at:
-```
-http://localhost:8000/docs
-```
+Interactive docs: `http://localhost:8000/docs`
 
 Key endpoints:
-- `POST /auth/register` — Create account
-- `POST /auth/login` — Login
-- `GET /auth/all-users` — View all registered users (requires token)
-- `GET /student/profile` — Get student profile
-- `GET /jobs/` — List all active jobs
-- `POST /ai/generate-roadmap` — Generate AI career roadmap
-- `POST /ai/build-resume` — Generate AI resume
-- `POST /ai/score-resume` — Score and analyze resume
-- `POST /ai/skill-gap` — Analyze skill gap for a job
-- `POST /ai/salary-insights` — Get salary data for a role
-- `POST /ai/govt-jobs` — Find matching government exams
-- `POST /ai/mock-interview` — AI mock interview session
-- `POST /feedback/submit` — Submit feedback/rating
-- `DELETE /feedback/account` — Delete account permanently
+- `POST /auth/register` | `POST /auth/login`
+- `GET /student/profile` | `PUT /student/profile`
+- `GET /jobs/` | `POST /jobs/`
+- `POST /ai/generate-roadmap` | `POST /ai/build-resume`
+- `POST /ai/score-resume` | `POST /ai/skill-gap`
+- `POST /ai/salary-insights` | `POST /ai/govt-jobs`
+- `POST /ai/scholarships` | `POST /ai/mock-interview`
+- `POST /feedback/submit` | `DELETE /feedback/account`
 
 ---
 

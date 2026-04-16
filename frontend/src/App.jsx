@@ -22,6 +22,11 @@ import StudentMessages from '@/pages/student/StudentMessages'
 import Portfolio from '@/pages/student/Portfolio'
 import MockInterview from '@/pages/student/MockInterview'
 import SkillGap from '@/pages/student/SkillGap'
+import Achievements from '@/pages/student/Achievements'
+import CareerCompare from '@/pages/student/CareerCompare'
+import Scholarships from '@/pages/student/Scholarships'
+import SkillQuiz from '@/pages/student/SkillQuiz'
+import IndustryTrends from '@/pages/student/IndustryTrends'
 
 // Recruiter Pages
 import RecruiterDashboard from '@/pages/recruiter/RecruiterDashboard'
@@ -80,6 +85,11 @@ export default function App() {
         <Route path="skill-gap" element={<SkillGap />} />
         <Route path="messages" element={<StudentMessages />} />
         <Route path="portfolio" element={<Portfolio />} />
+        <Route path="achievements" element={<Achievements />} />
+        <Route path="career-compare" element={<CareerCompare />} />
+        <Route path="scholarships" element={<Scholarships />} />
+        <Route path="skill-quiz" element={<SkillQuiz />} />
+        <Route path="industry-trends" element={<IndustryTrends />} />
       </Route>
 
       {/* Recruiter Routes */}
