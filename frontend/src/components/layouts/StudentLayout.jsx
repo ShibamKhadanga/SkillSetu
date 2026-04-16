@@ -43,8 +43,8 @@ export default function StudentLayout() {
   useEffect(() => {
     const fetchNotifs = async () => {
       try {
-        const res = await api.get('/notifications/count')
-        setNotifCount(res.data?.count || 0)
+        const res = await api.get('/notifications/unread-count')
+        setNotifCount(res.data?.data?.count || 0)
       } catch { /* ignore */ }
     }
     fetchNotifs()

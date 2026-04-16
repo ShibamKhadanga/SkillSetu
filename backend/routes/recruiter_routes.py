@@ -98,3 +98,112 @@ async def update_profile(
         setattr(profile, field, value)
     await db.commit()
     return {"success": True, "message": "Profile updated! ✅"}
+
+
+@router.get("/candidates")
+async def get_candidates(
+    current_user: User         = Depends(get_recruiter_user),
+    db:           AsyncSession = Depends(get_db),
+):
+    """Get all student profiles with match scores against recruiter's jobs."""
+    from services.matching_service import matching_service
+
+    # Get recruiter's active jobs
+    jobs_r = await db.execute(select(Job).where(
+        Job.recruiter_id == current_user.id, Job.is_active == True
+    ))
+    jobs = jobs_r.scalars().all()
+
+    # Get all student profiles
+    from models.models import StudentProfile
+    students_r = await db.execute(
+        select(User, StudentProfile)
+        .join(StudentProfile, User.id == StudentProfile.user_id)
+        .where(User.role == "student")
+    )
+    rows = students_r.all()
+
+    candidates = []
+    for user_row, profile in rows:
+        # Calculate best match across all recruiter's jobs
+        best_match = 0
+        best_role = ""
+        for job in jobs:
+            score = matching_service.calculate_match(
+                profile.skills or [],
+                job.required_skills or [],
+                profile.education or [],
+                job.min_education,
+            )
+            if score > best_match:
+                best_match = score
+                best_role = job.title
+
+        edu_str = ""
+        if profile.education and len(profile.education) > 0:
+            e = profile.education[0]
+            edu_str = f"{e.get('degree', '')} {e.get('institution', '')} {e.get('year', '')}".strip()
+
+        candidates.append({
+            "id": user_row.id,
+            "name": user_row.name,
+            "email": user_row.email,
+            "phone": user_row.phone or "",
+            "role": profile.suggested_role or profile.career_goal or best_role or "Student",
+            "location": profile.location or "India",
+            "match": best_match,
+            "skills": (profile.skills or [])[:8],
+            "education": edu_str,
+            "avatar": (user_row.name or "S")[:2].upper(),
+            "bio": profile.bio or "",
+        })
+
+    # Sort by match score descending
+    candidates.sort(key=lambda c: c["match"], reverse=True)
+    return {"success": True, "data": candidates}
+
+
+@router.get("/analytics")
+async def get_analytics(
+    current_user: User         = Depends(get_recruiter_user),
+    db:           AsyncSession = Depends(get_db),
+):
+    """Get live analytics data for the recruiter dashboard."""
+    jobs_r = await db.execute(select(Job).where(
+        Job.recruiter_id == current_user.id
+    ))
+    jobs = jobs_r.scalars().all()
+
+    apps_r = await db.execute(select(Application).where(
+        Application.recruiter_id == current_user.id
+    ))
+    apps = apps_r.scalars().all()
+
+    total_views = sum(j.views or 0 for j in jobs)
+    avg_match = int(sum(a.match_score or 0 for a in apps) / len(apps)) if apps else 0
+
+    # Status funnel
+    status_counts = {}
+    for a in apps:
+        status_counts[a.status] = status_counts.get(a.status, 0) + 1
+
+    # Skills distribution from applicants
+    skill_counts = {}
+    for a in apps:
+        # We can infer from job required skills
+        pass
+
+    return {"success": True, "data": {
+        "total_views": total_views,
+        "total_applications": len(apps),
+        "avg_match": avg_match,
+        "active_jobs": len([j for j in jobs if j.is_active]),
+        "funnel": {
+            "views": total_views,
+            "applications": len(apps),
+            "shortlisted": status_counts.get("reviewing", 0) + status_counts.get("interview", 0),
+            "interviewed": status_counts.get("interview", 0),
+            "offered": status_counts.get("offered", 0),
+        },
+        "status_breakdown": status_counts,
+    }}

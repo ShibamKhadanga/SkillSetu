@@ -101,7 +101,7 @@ async def generate_resume(
     profile     = await _get_profile(current_user.id, db)
     resume_data = await gemini_service.build_resume(current_user, profile, body.target_role)
     return {"success": True,
-            "data": {"resume": resume_data},
+            "resume": resume_data,
             "message": "Resume generated! ✨"}
 
 
