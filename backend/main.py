@@ -22,7 +22,7 @@ from routes.application_routes  import router as application_router
 from routes.ai_routes           import router as ai_router
 from routes.message_routes      import router as message_router
 from routes.notification_routes import router as notification_router
-from routes.feedback_routes     import router as feedback_router   # ✅ NEW
+from routes.feedback_routes     import router as feedback_router   # ✅
 
 logging.basicConfig(
     level=logging.INFO,
@@ -64,7 +64,7 @@ app.include_router(application_router,  prefix="/applications",  tags=["Applicat
 app.include_router(ai_router,           prefix="/ai",            tags=["AI"])
 app.include_router(message_router,      prefix="/messages",      tags=["Messages"])
 app.include_router(notification_router, prefix="/notifications", tags=["Notifications"])
-app.include_router(feedback_router,     prefix="/feedback",      tags=["Feedback"])   # ✅ NEW
+app.include_router(feedback_router,     prefix="/feedback",      tags=["Feedback"])
 
 
 @app.get("/", tags=["Health"])

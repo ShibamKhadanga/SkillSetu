@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useThemeStore } from '@/store/themeStore'
 import {
   Zap, Map, FileText, Briefcase, Bell, Users, BarChart3,
@@ -138,6 +138,7 @@ const stats = [
 
 export default function Landing() {
   const { isDark, toggleTheme } = useThemeStore()
+  const navigate                = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 

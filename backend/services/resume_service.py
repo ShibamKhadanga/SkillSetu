@@ -55,7 +55,10 @@ async def generate_resume_pdf(resume_data: dict, template: str = "modern") -> by
             fontSize=24,
             fontName="Helvetica-Bold",
             textColor=dark_color,
-            spaceAfter=2,
+            spaceAfter=6,
+            spaceBefore=0,
+            leading=28,
+            alignment=TA_CENTER,
         )
         role_style = ParagraphStyle(
             "RoleStyle",
@@ -63,7 +66,10 @@ async def generate_resume_pdf(resume_data: dict, template: str = "modern") -> by
             fontSize=13,
             fontName="Helvetica",
             textColor=primary_color,
-            spaceAfter=4,
+            spaceAfter=6,
+            spaceBefore=0,
+            leading=16,
+            alignment=TA_CENTER,
         )
         contact_style = ParagraphStyle(
             "ContactStyle",
@@ -71,6 +77,9 @@ async def generate_resume_pdf(resume_data: dict, template: str = "modern") -> by
             fontSize=9,
             fontName="Helvetica",
             textColor=muted_color,
+            spaceAfter=4,
+            leading=13,
+            alignment=TA_CENTER,
         )
         section_title_style = ParagraphStyle(
             "SectionTitle",

@@ -90,6 +90,31 @@ async def dashboard(
     profile.profile_strength = calc_strength(profile)
     await db.commit()
 
+    # Build real recent activity from applications
+    status_labels = {
+        "new": "Applied", "reviewing": "Under Review",
+        "interview": "Interview Scheduled", "offered": "Offer Received 🎉",
+        "rejected": "Not Selected",
+    }
+    act_icons = {"new": "📤", "reviewing": "🔍", "interview": "🎤", "offered": "🏆", "rejected": "❌"}
+    recent_activity = [
+        {
+            "icon": act_icons.get(a.status, "📋"),
+            "text": f"{status_labels.get(a.status, 'Applied')} — {getattr(a, 'role', None) or 'Position'} at {a.company or 'Company'}",
+            "time": a.applied_at.strftime("%b %d"),
+        }
+        for a in sorted(apps, key=lambda x: x.applied_at, reverse=True)[:5]
+    ]
+    if not recent_activity:
+        if profile.bio:
+            recent_activity.append({"icon": "👤", "text": "Profile bio added", "time": "Recently"})
+        if profile.skills:
+            recent_activity.append({"icon": "🧠", "text": f"Added {len(profile.skills)} skills to profile", "time": "Recently"})
+        if profile.education:
+            recent_activity.append({"icon": "🎓", "text": "Education details updated", "time": "Recently"})
+        if not recent_activity:
+            recent_activity.append({"icon": "🌱", "text": "Welcome to SkillSetu! Complete your profile to get started.", "time": "Now"})
+
     return {"success": True, "data": {
         "stats": {
             "profileStrength": profile.profile_strength,
@@ -97,11 +122,11 @@ async def dashboard(
             "applications":    len(apps),
             "interviews":      len(interviews),
         },
-        "skills":        profile.skills or [],
-        "suggestedRole": profile.suggested_role or "Software Developer",
-        "roadmapProgress": 45,
-        "jobMatches":    matched[:5],
-        "recentActivity": [],
+        "skills":          profile.skills or [],
+        "suggestedRole":   profile.suggested_role or profile.career_goal or "Software Developer",
+        "roadmapProgress": min(100, (profile.profile_strength or 0) + 5),
+        "jobMatches":      matched[:5],
+        "recentActivity":  recent_activity,
     }}
 
 

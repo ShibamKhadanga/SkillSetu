@@ -26,12 +26,14 @@ Recruiters face the opposite — too many applications, no easy way to find the 
 ### 👨‍🎓 Student / Candidate
 | Feature | Description |
 |---|---|
-| 🗺️ AI Career Roadmap | Enter dream job → AI generates personalized phase-by-phase path with courses, Indian exams (JEE, GATE, CUET), NPTEL, FreeCodeCamp |
-| 🧠 AI Skill Extractor | Upload certificates, projects, degrees → AI detects hidden skills automatically |
-| 📄 AI Resume Builder | One click → professional ATS-optimized resume → downloadable PDF (4 templates) |
+| 🗺️ Education Flowchart | Visual tree diagram: 10th → 12th (Science/Commerce/Arts) / ITI / Diploma → Degree nodes with subjects → Job roles with salary |
+| 🧠 AI Career Roadmap | Enter dream job → AI generates personalized phase-by-phase path with courses, Indian exams (JEE, GATE, CUET), NPTEL, FreeCodeCamp |
+| 🤖 AI Skill Extractor | Upload certificates, projects, degrees → AI detects hidden skills automatically |
+| 📄 AI Resume Builder | One click → professional ATS-optimized resume → **center-aligned header** → downloadable PDF (4 templates) |
+| 📊 Resume Score Checker | **Upload PDF/TXT** or paste text → AI scores resume (content, structure, skills, achievements) → improvement tips |
 | 💼 Job Explorer | All jobs ranked by AI match score (0–100%) based on your skills |
 | ⚡ One-Click Apply | AI pre-fills every application field → review → send |
-| 📊 Application Tracker | Track all applications — Applied, Reviewing, Interview, Offered, Rejected |
+| 📋 Application Tracker | Track all applications — Applied, Reviewing, Interview, Offered, Rejected |
 | 🎤 AI Mock Interview | Chat-based AI interviewer → scored out of 10 per answer → final score out of 100 |
 | 🌐 Public Portfolio | Auto-generated shareable profile page like a personal LinkedIn |
 | 📱 WhatsApp + SMS Alerts | Instant alerts when recruiters contact you or new matching jobs are posted |
@@ -157,9 +159,11 @@ http://localhost:5173
 
 | Role | Email | What to see |
 |---|---|---|
-| 👨‍🎓 Student | `priya@demo.com` | Interview scheduled, messages from TechCorp |
-| 👨‍🎓 Student | `rahul@demo.com` | Job OFFER from AI Solutions! |
-| 👨‍🎓 Student | `anjali@demo.com` | Shortlisted, messages from TechCorp |
+| 👨‍🎓 CS Student | `priya@demo.com` | Interview scheduled, messages from TechCorp |
+| 👨‍🎓 ML Engineer | `rahul@demo.com` | Job OFFER from AI Solutions! |
+| 👨‍🎓 CA Student | `ananya@demo.com` | Education flowchart → Commerce path → CA route |
+| 👩‍⚕️ MBBS Student | `kavitha@demo.com` | Science path → NEET → Medical career roles |
+| ⚖️ Law Student | `meera@demo.com` | Arts path → CLAT → Legal career roles |
 | 🏢 Recruiter | `hr@techcorp.demo` | 4 applications, 2 active jobs, messages |
 | 🏢 Recruiter | `hr@aisolutions.demo` | 2 applications, 2 active jobs |
 

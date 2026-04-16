@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, User, Map, FileText, Briefcase,
   ClipboardList, MessageSquare, Globe, Mic, Sun, Moon,
   LogOut, Bell, Menu, X, ChevronRight, Star, Trash2,
-  IndianRupee, Landmark, FileSearch, GitBranch, Target
+  IndianRupee, Landmark, FileSearch, GitBranch, Target, CheckCheck
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
@@ -38,18 +38,46 @@ export default function StudentLayout() {
   const [sidebarOpen, setSidebarOpen]       = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleting, setDeleting]             = useState(false)
-  const [notifCount, setNotifCount]          = useState(0)
+  const [notifCount, setNotifCount]        = useState(0)
+  const [notifOpen, setNotifOpen]          = useState(false)
+  const [notifs, setNotifs]                = useState([])
+  const [notifLoading, setNotifLoading]    = useState(false)
+  const notifRef                           = useRef(null)
+
+  const fetchNotifCount = async () => {
+    try {
+      const res = await api.get('/notifications/unread-count')
+      setNotifCount(res.data?.data?.count || 0)
+    } catch { /* ignore */ }
+  }
+
+  const fetchNotifs = async () => {
+    setNotifLoading(true)
+    try {
+      const res = await api.get('/notifications/')
+      setNotifs(res.data?.data || [])
+      setNotifCount(0)
+    } catch {
+      // Demo notifications for new users
+      setNotifs([
+        { id: 'n1', title: 'Welcome to SkillSetu! 🎉', body: 'Complete your profile to get matched with top jobs.', type: 'info', is_read: false, created_at: new Date().toISOString(), link: '/student/profile' },
+        { id: 'n2', title: 'New AI Feature Available', body: 'Try our Salary Insights tool to benchmark your expected CTC.', type: 'feature', is_read: false, created_at: new Date(Date.now() - 86400000).toISOString(), link: '/student/salary-insights' },
+        { id: 'n3', title: 'Complete your Roadmap', body: 'Your AI career roadmap is ready. Explore your learning path!', type: 'action', is_read: true, created_at: new Date(Date.now() - 172800000).toISOString(), link: '/student/roadmap' },
+      ])
+    } finally { setNotifLoading(false) }
+  }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClick = (e) => { if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false) }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
 
   // Fetch notification count
   useEffect(() => {
-    const fetchNotifs = async () => {
-      try {
-        const res = await api.get('/notifications/unread-count')
-        setNotifCount(res.data?.data?.count || 0)
-      } catch { /* ignore */ }
-    }
-    fetchNotifs()
-    const interval = setInterval(fetchNotifs, 30000)
+    fetchNotifCount()
+    const interval = setInterval(fetchNotifCount, 30000)
     return () => clearInterval(interval)
   }, [])
 
@@ -249,16 +277,87 @@ export default function StudentLayout() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="relative w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}>
-              <Bell size={17} />
-              {notifCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-white text-xs flex items-center justify-center font-body font-bold"
-                  style={{ background: 'var(--accent)', fontSize: '10px' }}>
-                  {notifCount}
-                </span>
+            {/* Notifications Bell with Dropdown */}
+            <div className="relative" ref={notifRef}>
+              <button
+                onClick={() => { setNotifOpen(o => !o); if (!notifOpen) fetchNotifs() }}
+                className="relative w-9 h-9 rounded-xl flex items-center justify-center"
+                style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}>
+                <Bell size={17} />
+                {notifCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-white text-xs flex items-center justify-center font-body font-bold"
+                    style={{ background: 'var(--accent)', fontSize: '10px' }}>
+                    {notifCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Dropdown Panel */}
+              {notifOpen && (
+                <div className="absolute right-0 top-11 w-80 rounded-2xl shadow-2xl z-50 overflow-hidden"
+                  style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                  {/* Header */}
+                  <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
+                    <span className="font-display font-bold text-sm" style={{ color: 'var(--text-primary)' }}>🔔 Notifications</span>
+                    <button
+                      onClick={async () => {
+                        try { await api.patch('/notifications/read-all') } catch { /* ignore */ }
+                        setNotifs(n => n.map(x => ({ ...x, is_read: true })))
+                        setNotifCount(0)
+                        toast.success('All marked as read')
+                      }}
+                      className="flex items-center gap-1 text-xs font-body"
+                      style={{ color: 'var(--accent)' }}>
+                      <CheckCheck size={13} /> Mark all read
+                    </button>
+                  </div>
+
+                  {/* List */}
+                  <div className="max-h-80 overflow-y-auto">
+                    {notifLoading ? (
+                      <div className="p-6 text-center">
+                        <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--accent)' }} />
+                      </div>
+                    ) : notifs.length === 0 ? (
+                      <div className="p-6 text-center">
+                        <Bell size={28} className="mx-auto mb-2" style={{ color: 'var(--text-muted)', opacity: 0.4 }} />
+                        <p className="font-body text-sm" style={{ color: 'var(--text-muted)' }}>All caught up! 🎉</p>
+                      </div>
+                    ) : notifs.map(n => (
+                      <Link key={n.id} to={n.link || '/student'}
+                        onClick={async () => {
+                          setNotifOpen(false)
+                          if (!n.is_read) {
+                            try { await api.patch(`/notifications/${n.id}/read`) } catch { /* ignore */ }
+                            setNotifs(prev => prev.map(x => x.id === n.id ? { ...x, is_read: true } : x))
+                          }
+                        }}
+                        className="flex items-start gap-3 p-4 transition-all duration-150 border-b"
+                        style={{
+                          borderColor: 'var(--border-subtle)',
+                          background: n.is_read ? 'transparent' : 'var(--accent-light)',
+                        }}
+                        onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-input)' }}
+                        onMouseOut={e => { e.currentTarget.style.background = n.is_read ? 'transparent' : 'var(--accent-light)' }}>
+                        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-base"
+                          style={{ background: 'var(--accent-light)' }}>
+                          {n.type === 'message' ? '💬' : n.type === 'job' ? '💼' : n.type === 'feature' ? '✨' : n.type === 'action' ? '🚀' : '🔔'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-display font-semibold text-xs truncate" style={{ color: 'var(--text-primary)' }}>{n.title}</p>
+                          <p className="font-body text-xs mt-0.5 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{n.body}</p>
+                          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                            {new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                        {!n.is_read && <div className="w-2 h-2 rounded-full flex-shrink-0 mt-1" style={{ background: 'var(--accent)' }} />}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               )}
-            </button>
+            </div>
+
             <Link to="/student/profile"
               className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm text-white flex-shrink-0"
               style={{ background: 'var(--accent)' }}>

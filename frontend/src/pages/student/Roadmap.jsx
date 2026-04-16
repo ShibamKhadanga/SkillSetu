@@ -28,7 +28,7 @@ const PATHWAY_TREE = {
       icon: '🔬',
       duration: '2 years',
       description: 'Physics, Chemistry, Maths/Biology — Board Exams (CBSE/State)',
-      courses: ['Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Computer Science', 'Physical Education'],
+      courses: ['PCM — Maths Stream', 'PCB — Biology Stream'],
       children: [
         {
           id: 'sci-pcm',
@@ -83,7 +83,7 @@ const PATHWAY_TREE = {
                 },
                 { id: 'sci-pcm-btech-j1', name: 'Software Developer', type: 'job', salary: '₹4-15 LPA', icon: '💼' },
                 { id: 'sci-pcm-btech-j2', name: 'DevOps Engineer', type: 'job', salary: '₹5-18 LPA', icon: '💼' },
-                { id: 'sci-pcm-btech-j3', name: 'Civil / Mechanical Engineer', type: 'job', salary: '₹3-10 LPA', icon: '💼' },
+                { id: 'sci-pcm-btech-j3', name: 'Engineer (Branch-specific PSU / Pvt)', type: 'job', salary: '₹3-10 LPA', icon: '🏠' },
                 { id: 'sci-pcm-btech-j4', name: 'GATE → PSU Jobs (NTPC, BHEL, ONGC)', type: 'job', salary: '₹8-15 LPA', icon: '🏛️' },
               ]
             },
@@ -149,6 +149,39 @@ const PATHWAY_TREE = {
                 { id: 'sci-pcm-nda-j3', name: 'Indian Air Force Officer', type: 'job', salary: '₹8-20 LPA + Perks', icon: '🎖️' },
               ]
             },
+            {
+              id: 'sci-pcm-bca',
+              name: 'BCA (Computer Applications)',
+              type: 'degree',
+              color: '#8b5cf6',
+              icon: '💻',
+              duration: '3 years',
+              exams: ['CUET', 'IPU CET', 'BHU UET', 'State University Entrance'],
+              description: 'Bachelor of Computer Applications — CS career without JEE',
+              courses: ['C / C++ / Java', 'Database (SQL)', 'Web Development', 'Data Structures', 'Computer Networks', 'Software Engineering'],
+              children: [
+                {
+                  id: 'sci-pcm-bca-mca',
+                  name: 'MCA (Master of Computer Applications)',
+                  type: 'degree',
+                  color: '#6366f1',
+                  icon: '🎓',
+                  duration: '2 years',
+                  exams: ['NIMCET', 'CUET PG', 'JNU MCA', 'TANCET'],
+                  description: 'Premier CS PG degree — equivalent to M.Tech in software focus',
+                  courses: ['Advanced Programming', 'Software Engineering', 'Machine Learning', 'Cloud Computing', 'Cyber Security', 'Mobile App Dev'],
+                  children: [
+                    { id: 'sci-pcm-bca-mca-j1', name: 'Software Engineer', type: 'job', salary: '₹6-18 LPA', icon: '💼' },
+                    { id: 'sci-pcm-bca-mca-j2', name: 'Full Stack Developer', type: 'job', salary: '₹7-20 LPA', icon: '💼' },
+                    { id: 'sci-pcm-bca-mca-j3', name: 'Data Analyst', type: 'job', salary: '₹5-15 LPA', icon: '💼' },
+                    { id: 'sci-pcm-bca-mca-j4', name: 'Cyber Security Analyst', type: 'job', salary: '₹8-22 LPA', icon: '💼' },
+                  ]
+                },
+                { id: 'sci-pcm-bca-j1', name: 'Junior Software Developer', type: 'job', salary: '₹3-10 LPA', icon: '💼' },
+                { id: 'sci-pcm-bca-j2', name: 'Web Developer', type: 'job', salary: '₹3-12 LPA', icon: '💼' },
+                { id: 'sci-pcm-bca-j3', name: 'System Analyst', type: 'job', salary: '₹4-10 LPA', icon: '💼' },
+              ]
+            },
           ]
         },
         {
@@ -203,34 +236,62 @@ const PATHWAY_TREE = {
               ]
             },
             {
+              id: 'sci-pcb-bsc-bio',
+              name: 'B.Sc (Agriculture / Bio / Biotech)',
+              type: 'degree',
+              color: '#84cc16',
+              icon: '🌱',
+              duration: '3-4 years',
+              exams: ['ICAR AIEEA', 'University Entrance'],
+              courses: ['B.Sc Agriculture', 'B.Sc Biotechnology', 'B.Sc Microbiology', 'B.Sc Zoology', 'B.Sc Botany', 'B.Sc Food Technology', 'B.Sc Forensic Science'],
+              children: [
+                { id: 'sci-pcb-bsc-bio-j1', name: 'Agriculture Officer', type: 'job', salary: '₹4-10 LPA', icon: '🏛️' },
+                { id: 'sci-pcb-bsc-bio-j2', name: 'Biotech Researcher', type: 'job', salary: '₹4-12 LPA', icon: '💼' },
+                { id: 'sci-pcb-bsc-bio-j3', name: 'Food Technologist', type: 'job', salary: '₹3-8 LPA', icon: '💼' },
+              ]
+            },
+            {
+              id: 'sci-pcb-nursing',
+              name: 'B.Sc Nursing',
+              type: 'degree',
+              color: '#f472b6',
+              icon: '🏥',
+              duration: '4 years',
+              exams: ['State Nursing Entrance', 'AIIMS Nursing'],
+              courses: ['Anatomy', 'Physiology', 'Medical-Surgical Nursing', 'Paediatric Nursing', 'Psychiatric Nursing'],
+              children: [
+                { id: 'sci-pcb-nursing-j1', name: 'Registered Nurse (Staff Nurse)', type: 'job', salary: '₹4-12 LPA', icon: '💼' },
+                { id: 'sci-pcb-nursing-j2', name: 'Nursing Supervisor', type: 'job', salary: '₹6-15 LPA', icon: '💼' },
+              ]
+            },
+            {
+              id: 'sci-pcb-bpt',
+              name: 'BPT (Physiotherapy)',
+              type: 'degree',
+              color: '#ec4899',
+              icon: '🏃',
+              duration: '4.5 years (incl. Internship)',
+              exams: ['State CETs', 'University Level'],
+              courses: ['Human Anatomy', 'Biomechanics', 'Orthopaedics', 'Neurology', 'Cardio-Respiratory'],
+              children: [
+                { id: 'sci-pcb-bpt-j1', name: 'Physiotherapist', type: 'job', salary: '₹3-10 LPA', icon: '💼' },
+                { id: 'sci-pcb-bpt-j2', name: 'Sports Rehabilitator', type: 'job', salary: '₹4-15 LPA', icon: '🏀' },
+              ]
+            },
+            {
               id: 'sci-pcb-bpharm',
-              name: 'B.Pharm (Pharmacy)',
+              name: 'B.Pharm / D.Pharm (Pharmacy)',
               type: 'degree',
               color: '#f59e0b',
               icon: '💊',
-              duration: '4 years',
-              exams: ['GPAT', 'State Entrance'],
+              duration: '4 yrs (B.Pharm) / 2 yrs (D.Pharm)',
+              exams: ['GPAT (for M.Pharm)', 'State CETs'],
               courses: ['Pharmaceutics', 'Pharmacology', 'Medicinal Chemistry', 'Pharmacognosy', 'Pharmaceutical Analysis'],
               children: [
                 { id: 'sci-pcb-bpharm-j1', name: 'Pharmacist', type: 'job', salary: '₹3-8 LPA', icon: '💼' },
                 { id: 'sci-pcb-bpharm-j2', name: 'Drug Inspector', type: 'job', salary: '₹5-10 LPA', icon: '🏛️' },
                 { id: 'sci-pcb-bpharm-j3', name: 'Clinical Research Associate', type: 'job', salary: '₹4-12 LPA', icon: '💼' },
-              ]
-            },
-            {
-              id: 'sci-pcb-bsc-bio',
-              name: 'B.Sc (Biotech / Nursing / Agriculture)',
-              type: 'degree',
-              color: '#84cc16',
-              icon: '🌱',
-              duration: '3-4 years',
-              exams: ['ICAR AIEEA', 'State Nursing', 'University Entrance'],
-              courses: ['B.Sc Biotechnology', 'B.Sc Nursing', 'B.Sc Agriculture', 'B.Sc Microbiology', 'B.Sc Zoology', 'B.Sc Botany', 'B.Sc Food Technology'],
-              children: [
-                { id: 'sci-pcb-bsc-bio-j1', name: 'Nurse (Govt/Private)', type: 'job', salary: '₹3-8 LPA', icon: '💼' },
-                { id: 'sci-pcb-bsc-bio-j2', name: 'Agriculture Officer', type: 'job', salary: '₹4-10 LPA', icon: '🏛️' },
-                { id: 'sci-pcb-bsc-bio-j3', name: 'Biotech Researcher', type: 'job', salary: '₹4-12 LPA', icon: '💼' },
-                { id: 'sci-pcb-bsc-bio-j4', name: 'Food Technologist', type: 'job', salary: '₹3-8 LPA', icon: '💼' },
+                { id: 'sci-pcb-bpharm-j4', name: 'Medical Representative (MR)', type: 'job', salary: '₹3-7 LPA', icon: '💼' },
               ]
             },
             {
@@ -576,11 +637,19 @@ const PATHWAY_TREE = {
 // TREE NODE COMPONENT
 // ════════════════════════════════════════════════════════════════
 const TreeNode = ({ node, depth = 0, markedNode, setMarkedNode }) => {
-  const [expanded, setExpanded] = useState(depth < 1)
+  const [expanded, setExpanded] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
+  const [activeSubject, setActiveSubject] = useState(null)
   const hasChildren = node.children && node.children.length > 0
   const isJob = node.type === 'job'
   const isMarked = markedNode === node.id
+
+  const handleChipClick = (e, subject) => {
+    e.stopPropagation()
+    const next = activeSubject === subject ? null : subject
+    setActiveSubject(next)
+    if (next) { setExpanded(true); setShowDetail(true) }
+  }
 
   const streamColors = {
     '#3b82f6': { bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.25)', text: '#3b82f6' },
@@ -701,6 +770,48 @@ const TreeNode = ({ node, depth = 0, markedNode, setMarkedNode }) => {
                 </span>
               )}
             </div>
+
+            {/* Inline subject chips — collapse when one is active */}
+            {node.courses && node.courses.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-1.5" onClick={e => e.stopPropagation()}>
+                {activeSubject ? (
+                  // Collapsed: show only active chip + change button
+                  <>
+                    <button
+                      onClick={(e) => handleChipClick(e, activeSubject)}
+                      className="text-xs px-2.5 py-0.5 rounded-full font-body flex items-center gap-1"
+                      style={{ background: resolvedColor, color: 'white', boxShadow: `0 2px 6px ${resolvedColor}55` }}>
+                      ✓ {activeSubject}
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setActiveSubject(null) }}
+                      className="text-xs px-2 py-0.5 rounded-full font-body"
+                      style={{ background: 'var(--bg-input)', color: 'var(--text-muted)' }}>
+                      × change
+                    </button>
+                  </>
+                ) : (
+                  // Expanded: show all chips
+                  <>
+                    {node.courses.slice(0, 6).map(course => (
+                      <button
+                        key={course}
+                        onClick={(e) => handleChipClick(e, course)}
+                        className="text-xs px-2 py-0.5 rounded-full font-body transition-all duration-150"
+                        style={{ background: `${resolvedColor}18`, color: resolvedColor, border: `1px solid ${resolvedColor}30` }}>
+                        {course}
+                      </button>
+                    ))}
+                    {node.courses.length > 6 && (
+                      <span className="text-xs px-2 py-0.5 rounded-full font-body"
+                        style={{ background: 'var(--bg-input)', color: 'var(--text-muted)' }}>
+                        +{node.courses.length - 6} more
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           {/* "I am here" marker */}
@@ -756,38 +867,48 @@ const TreeNode = ({ node, depth = 0, markedNode, setMarkedNode }) => {
                 </div>
               </div>
             )}
-            {node.courses && node.courses.length > 0 && (
-              <div>
-                <p className="font-display font-semibold text-xs mb-1.5 flex items-center gap-1.5" style={{ color: cs.text }}>
-                  <BookOpen size={11} /> Available Courses / Subjects
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {node.courses.map(course => (
-                    <span key={course} className="text-xs px-2 py-1 rounded-lg font-body"
-                      style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}>
-                      📘 {course}
-                    </span>
-                  ))}
-                </div>
+            {node.courses && node.courses.length > 0 && activeSubject && (
+              <div className="p-2 rounded-lg text-xs font-body"
+                style={{ background: `${resolvedColor}15`, border: `1px solid ${resolvedColor}30`, color: 'var(--text-secondary)' }}>
+                💡 <strong style={{ color: resolvedColor }}>{activeSubject}</strong> — selected option in <strong>{node.name}</strong>.
+                {node.type === 'degree' && ' Click "I am here" (📍) to mark this as your current specialization.'}
+                {node.type === 'stream' && ' This determines your subjects & entrance exams.'}
+                {node.type === 'combination' && ' These are the compulsory subjects for this group.'}
               </div>
             )}
           </div>
         )}
 
+
         {/* Children */}
-        {expanded && hasChildren && (
-          <div className="px-3 pb-3 space-y-1.5" style={{ borderTop: `1px dashed ${resolvedColor}22` }}>
-            {node.children.map(child => (
-              <TreeNode
-                key={child.id}
-                node={child}
-                depth={depth + 1}
-                markedNode={markedNode}
-                setMarkedNode={setMarkedNode}
-              />
-            ))}
-          </div>
-        )}
+        {expanded && hasChildren && (() => {
+          // Filter children when a chip is selected and it matches a child name
+          const chipKey = activeSubject ? activeSubject.split('—')[0].trim().toLowerCase() : null
+          const filtered = chipKey
+            ? node.children.filter(c => c.name.toLowerCase().includes(chipKey) || c.type === 'job')
+            : node.children
+          // Only use filtered list if it actually narrows down the children
+          const visibleChildren = (filtered.length > 0 && filtered.length < node.children.length) ? filtered : node.children
+          return (
+            <div className="px-3 pb-3 space-y-1.5" style={{ borderTop: `1px dashed ${resolvedColor}22` }}>
+              {activeSubject && visibleChildren.length < node.children.length && (
+                <p className="font-body text-xs py-1 px-2" style={{ color: 'var(--text-muted)' }}>
+                  Showing paths for <strong style={{ color: resolvedColor }}>{activeSubject.split('—')[0].trim()}</strong>
+                  <button onClick={() => setActiveSubject(null)} className="ml-2 underline" style={{ color: 'var(--text-muted)' }}>show all</button>
+                </p>
+              )}
+              {visibleChildren.map(child => (
+                <TreeNode
+                  key={child.id}
+                  node={child}
+                  depth={depth + 1}
+                  markedNode={markedNode}
+                  setMarkedNode={setMarkedNode}
+                />
+              ))}
+            </div>
+          )
+        })()}
       </div>
     </div>
   )
@@ -795,7 +916,390 @@ const TreeNode = ({ node, depth = 0, markedNode, setMarkedNode }) => {
 
 
 // ════════════════════════════════════════════════════════════════
-// TAB 1: PATHWAY EXPLORER
+// FLOWCHART VIEW
+// ════════════════════════════════════════════════════════════════
+
+// ── Step-by-step Interactive Flowchart ──────────────────────────
+const FlowChart = () => {
+  const [selectedPath, setSelectedPath] = useState([])
+  // subjectSelections: { [nodeId]: selectedSubject | null }
+  const [subjectSelections, setSubjectSelections] = useState({})
+  const root = PATHWAY_TREE
+
+  // Recursively find a node by id
+  const findNode = (id, node = root) => {
+    if (node.id === id) return node
+    if (node.children) {
+      for (const n of node.children) {
+        const found = findNode(id, n); if (found) return found
+      }
+    }
+    return null
+  }
+
+  const handleSelect = (levelIdx, nodeId) => {
+    if (selectedPath[levelIdx] === nodeId) {
+      setSelectedPath(selectedPath.slice(0, levelIdx))
+    } else {
+      setSelectedPath([...selectedPath.slice(0, levelIdx), nodeId])
+    }
+  }
+
+  // Build visible levels gracefully filtering by subject selection
+  const levels = []
+  let currentNode = root
+
+  for (let i = 0; i <= selectedPath.length; i++) {
+    if (!currentNode.children) break
+    
+    let activeSub = subjectSelections[currentNode.id] || null
+    let childList = currentNode.children
+    
+    // Filter logic mirroring Pathway Explorer
+    if (activeSub) {
+      const chipKey = activeSub.split('—')[0].trim().toLowerCase()
+      const filtered = childList.filter(c => c.name.toLowerCase().includes(chipKey) || c.type === 'job')
+      if (filtered.length > 0 && filtered.length < childList.length) {
+        childList = filtered
+      }
+    }
+
+    const nextNodes = childList.filter(c => c.type !== 'job')
+    const jobsAtLevel = childList.filter(c => c.type === 'job')
+    
+    if (nextNodes.length === 0 && jobsAtLevel.length === 0) break
+    
+    const chosenId = selectedPath[i] || null
+    levels.push({ parentNode: currentNode, nodes: nextNodes, jobs: jobsAtLevel, chosenId })
+    
+    if (chosenId) {
+      const chosen = nextNodes.find(n => n.id === chosenId)
+      if (chosen) currentNode = chosen
+      else break
+    } else {
+      break
+    }
+  }
+
+  const lastLevel = levels[levels.length - 1]
+  const showJobsAtBottom = lastLevel && lastLevel.chosenId && (() => {
+    const chosenNode = findNode(lastLevel.chosenId)
+    // If chosen node has NO next-level nodes among its children, we show its own jobs below it
+    return chosenNode && chosenNode.children && chosenNode.children.some(c => c.type === 'job') && !chosenNode.children.some(c => c.type !== 'job')
+  })()
+
+  return (
+    <div className="space-y-4">
+      {/* Banner */}
+      <div className="glass-card rounded-2xl p-4 flex items-start gap-3" style={{ borderColor: 'var(--accent)' }}>
+        <GitBranch size={18} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--accent)' }} />
+        <div className="flex-1">
+          <p className="font-display font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>Indian Education Pathway — Step by Step</p>
+          <p className="font-body text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Select a path left→right • Choose course chips to filter • Jobs appear at the end
+          </p>
+        </div>
+        {selectedPath.length > 0 && (
+          <button onClick={() => { setSelectedPath([]); setSubjectSelections({}) }}
+            className="text-xs px-3 py-1 rounded-lg font-body transition-all"
+            style={{ background: 'var(--bg-input)', color: 'var(--text-muted)' }}>
+            ↺ Reset
+          </button>
+        )}
+      </div>
+
+      {/* Breadcrumbs */}
+      {selectedPath.length > 0 && (
+        <div className="flex items-center gap-2 flex-wrap px-1">
+          <span className="font-body text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Your path:</span>
+          <span className="font-body text-xs" style={{ color: '#6366f1' }}>{root.icon} {root.name}</span>
+          {selectedPath.map((id) => {
+            const n = findNode(id)
+            if (!n) return null
+            return (
+              <span key={id} className="flex items-center gap-1">
+                <ArrowRight size={11} style={{ color: 'var(--text-muted)' }} />
+                <span className="font-body text-xs font-semibold" style={{ color: n.color }}>{n.icon} {n.name.split('(')[0].trim()}</span>
+              </span>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Horizontal Flowchart */}
+      <div className="flex items-start gap-0 overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin', WebkitOverflowScrolling: 'touch' }}>
+        {/* Root node */}
+        <div className="flex-shrink-0 flex flex-col items-center justify-center" style={{ minWidth: 140 }}>
+          <div className="rounded-2xl px-5 py-4 text-center"
+            style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '0 8px 30px #6366f144' }}>
+            <div className="text-2xl mb-1">{root.icon}</div>
+            <p className="font-display font-black text-sm text-white whitespace-nowrap">{root.name}</p>
+          </div>
+        </div>
+
+        {/* Levels rendered left-to-right */}
+        {levels.map((level, li) => {
+          const hasNodes = level.nodes.length > 0
+          if (!hasNodes) return null
+          
+          return (
+            <div key={li} className="flex items-start flex-shrink-0">
+              {/* Horizontal connector */}
+              <div className="flex items-center self-center" style={{ minWidth: 28 }}>
+                <div style={{ height: 2, width: 28, background: level.chosenId
+                  ? `${level.parentNode.color || '#6366f1'}66`
+                  : '#6366f155' }} />
+              </div>
+
+              {/* Column of nodes for this level */}
+              <div className="flex flex-col gap-2 flex-shrink-0" style={{ minWidth: 150, maxWidth: 200 }}>
+                {level.nodes.map(node => {
+                  const isChosen = node.id === level.chosenId
+                  const isOther = level.chosenId && !isChosen
+                  return (
+                    <button key={node.id} onClick={() => handleSelect(li, node.id)}
+                      className="rounded-xl p-3 text-center transition-all duration-300"
+                      style={{
+                        background: isChosen ? `${node.color}20` : 'var(--bg-card)',
+                        border: `2px solid ${isChosen ? node.color : isOther ? 'transparent' : 'var(--border-subtle)'}`,
+                        boxShadow: isChosen ? `0 4px 16px ${node.color}44` : 'none',
+                        opacity: isOther ? 0.3 : 1,
+                        transform: isChosen ? 'scale(1.04)' : 'scale(1)',
+                      }}>
+                      <div className="text-xl mb-0.5">{node.icon}</div>
+                      <p className="font-display font-bold" style={{ color: isChosen ? node.color : 'var(--text-primary)', fontSize: 11, lineHeight: '1.3' }}>
+                        {node.name}
+                      </p>
+                      {node.duration && (
+                        <p className="font-body mt-0.5" style={{ color: node.color, fontSize: 9 }}>⏱ {node.duration}</p>
+                      )}
+                      {node.exams && node.exams.length > 0 && (
+                        <p className="font-body" style={{ color: 'var(--text-muted)', fontSize: 9 }}>✏️ {node.exams[0]}</p>
+                      )}
+                      
+                      {/* Interactive Course Chips */}
+                      {node.courses && node.courses.length > 0 && (
+                        <div className="flex flex-wrap gap-0.5 mt-1.5 justify-center" onClick={e => e.stopPropagation()}>
+                          {(() => {
+                            const activeSub = subjectSelections[node.id] || null
+                            if (activeSub) {
+                              return (
+                                <>
+                                  <span className="font-body rounded-full px-2 py-0.5 flex items-center gap-0.5"
+                                    style={{ background: node.color, color: 'white', fontSize: 9, fontWeight: 600 }}>
+                                    ✓ {activeSub.split('—')[0].trim()}
+                                  </span>
+                                  <button onClick={(e) => { e.stopPropagation(); setSubjectSelections(s => ({ ...s, [node.id]: null })) }}
+                                    className="font-body rounded-full px-1.5 py-0.5"
+                                    style={{ background: 'var(--bg-input)', color: 'var(--text-muted)', fontSize: 9 }}>
+                                    ×
+                                  </button>
+                                </>
+                              )
+                            }
+                            return node.courses.slice(0, 3).map(course => (
+                              <button key={course} onClick={(e) => { e.stopPropagation(); setSubjectSelections(s => ({ ...s, [node.id]: course })) }}
+                                className="font-body rounded-full px-1.5 py-0.5 transition-all"
+                                style={{ background: `${node.color}20`, color: node.color, fontSize: 9,
+                                  fontWeight: isChosen ? 600 : 400, border: `1px solid ${node.color}30` }}>
+                                {course.split('—')[0].split('/')[0].trim()}
+                              </button>
+                            ))
+                          })()}
+                          {!subjectSelections[node.id] && node.courses.length > 3 && (
+                            <span className="font-body rounded-full px-1.5 py-0.5"
+                              style={{ background: 'var(--bg-input)', color: 'var(--text-muted)', fontSize: 9 }}>
+                              +{node.courses.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Chosen Indicator */}
+                      {isChosen && (
+                        <div className="mt-1 flex justify-center">
+                          <span className="w-4 h-4 rounded-full flex items-center justify-center"
+                            style={{ background: node.color, color: 'white', fontSize: 9 }}>✓</span>
+                        </div>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
+
+        {/* Terminal jobs panel (shown to the right of last level) */}
+        {(() => {
+          const lastLvl = levels[levels.length - 1]
+          if (!lastLvl || !lastLvl.chosenId) return null
+          const ch = findNode(lastLvl.chosenId)
+          const hasTerminalJobs = ch && ch.children && ch.children.some(c => c.type === 'job') && !ch.children.some(c => c.type !== 'job')
+          if (!hasTerminalJobs) return null
+          const termJobs = ch.children.filter(c => c.type === 'job')
+          return (
+            <div className="flex items-start flex-shrink-0">
+              <div className="flex items-center self-center" style={{ minWidth: 28 }}>
+                <div style={{ height: 2, width: 28, background: '#22c55e66' }} />
+              </div>
+              <div className="glass-card rounded-xl p-3 flex-shrink-0" style={{ minWidth: 180, maxWidth: 250 }}>
+                <p className="font-display font-semibold text-xs mb-2" style={{ color: '#22c55e' }}>💼 Career Outcomes</p>
+                <div className="space-y-1.5">
+                  {termJobs.map(j => (
+                    <div key={j.id} className="flex items-center justify-between px-2 py-1.5 rounded-lg"
+                      style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)' }}>
+                      <span className="font-body font-medium" style={{ color: 'var(--text-primary)', fontSize: 11 }}>{j.icon} {j.name}</span>
+                      <span className="font-body font-semibold whitespace-nowrap ml-1" style={{ color: '#22c55e', fontSize: 10 }}>{j.salary}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )
+        })()}
+      </div>
+    </div>
+  )
+}
+
+// (Legacy FlowNode / FlowRow kept for potential reuse)
+const FlowNode = ({ node, isRoot = false, markedNode, setMarkedNode }) => {
+  const [open, setOpen] = useState(false)
+  const isMarked = markedNode === node.id
+  const isJob    = !!node.salary
+  const hasJobs  = node.jobs && node.jobs.length > 0
+  const hasChildren = node.children && node.children.length > 0
+  const isLeaf = !hasChildren
+
+  if (isRoot) {
+    return (
+      <div className="flex flex-col items-center">
+        <div
+          className="rounded-2xl px-6 py-4 text-center font-display font-black text-base text-white"
+          style={{ background: `linear-gradient(135deg, ${node.color}, ${node.color}cc)`, boxShadow: `0 6px 24px ${node.color}44`, minWidth: 160 }}>
+          <div className="text-3xl mb-1">{node.icon}</div>
+          {node.label}
+          <div className="text-xs font-body font-normal mt-0.5 opacity-80">{node.duration || ''}</div>
+        </div>
+        {hasChildren && <ConnectorDown color={node.color} />}
+        {hasChildren && <FlowRow children={node.children} parentColor={node.color} markedNode={markedNode} setMarkedNode={setMarkedNode} />}
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="rounded-xl px-4 py-3 text-center transition-all duration-200 w-full"
+        style={{
+          background: isMarked ? `${node.color}22` : 'var(--bg-card)',
+          border: `2px solid ${open ? node.color : 'var(--border-subtle)'}`,
+          boxShadow: open ? `0 4px 16px ${node.color}33` : 'none',
+          minWidth: 140, maxWidth: 180,
+        }}
+        onMouseOver={e => e.currentTarget.style.borderColor = node.color}
+        onMouseOut={e => { if (!open) e.currentTarget.style.borderColor = 'var(--border-subtle)' }}>
+        <div className="text-2xl mb-1">{node.icon}</div>
+        <p className="font-display font-bold text-xs" style={{ color: 'var(--text-primary)' }}>{node.label}</p>
+        {node.duration && <p className="font-body text-xs mt-0.5" style={{ color: node.color }}>{node.duration}</p>}
+        {node.exam && <p className="font-body text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>✏️ {node.exam}</p>}
+
+        {/* Subjects chips */}
+        {node.subjects && node.subjects.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-2 justify-center">
+            {node.subjects.slice(0, 4).map(s => (
+              <span key={s} className="text-xs px-1.5 py-0.5 rounded-md font-body"
+                style={{ background: `${node.color}18`, color: node.color, border: `1px solid ${node.color}30` }}>
+                {s}
+              </span>
+            ))}
+            {node.subjects.length > 4 && (
+              <span className="text-xs px-1.5 py-0.5 rounded-md font-body"
+                style={{ background: 'var(--bg-input)', color: 'var(--text-muted)' }}>
+                +{node.subjects.length - 4}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* "I am here" pin */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setMarkedNode(isMarked ? null : node.id) }}
+          className="mt-2 text-xs px-2 py-0.5 rounded-full font-body transition-all"
+          style={isMarked
+            ? { background: node.color, color: 'white' }
+            : { background: 'var(--bg-input)', color: 'var(--text-muted)' }}>
+          {isMarked ? '📍 Here' : '📍 I\'m here'}
+        </button>
+      </button>
+
+      {/* Job chips directly on leaf nodes */}
+      {hasJobs && (
+        <div className="mt-2 flex flex-col gap-1 w-full items-center">
+          <ConnectorDown color={node.color} small />
+          {node.jobs.map(j => (
+            <div key={j.label}
+              className="rounded-lg px-3 py-1.5 w-full text-center"
+              style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)' }}>
+              <p className="font-body text-xs font-semibold" style={{ color: '#22c55e' }}>💼 {j.label}</p>
+              <p className="font-body text-xs" style={{ color: 'var(--text-muted)' }}>{j.salary}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Children */}
+      {hasChildren && (
+        <>
+          <ConnectorDown color={node.color} />
+          <FlowRow children={node.children} parentColor={node.color} markedNode={markedNode} setMarkedNode={setMarkedNode} />
+        </>
+      )}
+    </div>
+  )
+}
+
+const ConnectorDown = ({ color, small = false }) => (
+  <div className="flex flex-col items-center" style={{ height: small ? 12 : 24 }}>
+    <div style={{ width: 2, flex: 1, background: `${color}55` }} />
+  </div>
+)
+
+const ConnectorLine = ({ color, leftPct = 0, widthPct = 100 }) => (
+  <div style={{ position: 'relative', height: 2, background: `${color}33`, width: '100%', marginBottom: 0 }} />
+)
+
+// FlowRow: renders siblings in a horizontal row
+const FlowRow = ({ children, parentColor, markedNode, setMarkedNode }) => {
+  const count = children.length
+  return (
+    <div className="relative w-full">
+      {/* Horizontal connector line */}
+      {count > 1 && (
+        <div style={{
+          position: 'absolute', top: 0, left: `${100 / (count * 2)}%`,
+          right: `${100 / (count * 2)}%`, height: 2,
+          background: `${parentColor}44`, zIndex: 0,
+        }} />
+      )}
+      <div className="flex justify-around gap-3 pt-0 relative z-10">
+        {children.map((child) => (
+          <div key={child.id} className="flex flex-col items-center flex-1" style={{ minWidth: 0 }}>
+            {/* Vertical stub from top line down to node */}
+            {count > 1 && (
+              <div style={{ width: 2, height: 16, background: `${parentColor}44` }} />
+            )}
+            <FlowNode node={child} markedNode={markedNode} setMarkedNode={setMarkedNode} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+
 // ════════════════════════════════════════════════════════════════
 const PathwayExplorer = () => {
   const [markedNode, setMarkedNode] = useState(null)
@@ -1118,24 +1622,25 @@ export default function Roadmap() {
   const [activeTab, setActiveTab] = useState('tree')
 
   const tabs = [
-    { id: 'tree', label: 'Pathway Explorer', icon: GitBranch, desc: 'Indian Education Tree' },
-    { id: 'ai',   label: 'AI Roadmap',       icon: Sparkles,  desc: 'Personalized Path' },
+    { id: 'tree',      label: 'Pathway Explorer', icon: BookOpen,  desc: 'Interactive Tree' },
+    { id: 'flowchart', label: 'Flowchart',        icon: GitBranch, desc: 'Step-by-Step Path' },
+    { id: 'ai',        label: 'AI Phases',        icon: Sparkles,  desc: 'Personalised Roadmap' },
   ]
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-6 max-w-5xl">
       {/* Header */}
       <div>
         <h2 className="font-display font-bold text-2xl" style={{ color: 'var(--text-primary)' }}>
           🗺️ Career Roadmap
         </h2>
         <p className="font-body text-sm" style={{ color: 'var(--text-muted)' }}>
-          Explore all career paths or get a personalized AI roadmap
+          Explore all Indian career paths or get a personalized AI roadmap
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-3">
+      <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
         {tabs.map(tab => {
           const active = activeTab === tab.id
           return (
@@ -1145,7 +1650,7 @@ export default function Roadmap() {
                 ? { background: 'var(--accent)', color: 'white', boxShadow: '0 4px 16px var(--shadow)' }
                 : { background: 'var(--bg-card)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}>
               <tab.icon size={16} />
-              <div className="text-left">
+              <div className="text-left whitespace-nowrap">
                 <p>{tab.label}</p>
                 <p className="text-xs font-body font-normal" style={{ opacity: 0.7 }}>{tab.desc}</p>
               </div>
@@ -1155,7 +1660,9 @@ export default function Roadmap() {
       </div>
 
       {/* Tab content */}
-      {activeTab === 'tree' ? <PathwayExplorer /> : <AIRoadmap />}
+      {activeTab === 'flowchart' && <FlowChart />}
+      {activeTab === 'tree'      && <PathwayExplorer />}
+      {activeTab === 'ai'        && <AIRoadmap />}
     </div>
   )
 }

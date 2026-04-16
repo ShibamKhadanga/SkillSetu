@@ -17,13 +17,13 @@ const ResumePreview = ({ resume, template }) => {
   const accentColor = template === 'modern' ? 'var(--accent)' : template === 'creative' ? '#8b5cf6' : '#1a1a2e'
   return (
     <div className="bg-white rounded-xl p-6 text-black text-xs shadow-lg font-body" style={{ minHeight: 500, fontFamily: 'Georgia, serif' }}>
-      {/* Header */}
-      <div className="border-b-2 pb-3 mb-4" style={{ borderColor: accentColor }}>
-        <h2 style={{ color: accentColor, fontSize: 20, fontWeight: 700, fontFamily: 'Syne, sans-serif' }}>
+      {/* Header — centered */}
+      <div className="border-b-2 pb-4 mb-4 text-center" style={{ borderColor: accentColor }}>
+        <h2 style={{ color: '#1a1a2e', fontSize: 22, fontWeight: 700, fontFamily: 'Syne, sans-serif', lineHeight: 1.2, marginBottom: 6 }}>
           {resume.name || 'Your Name'}
         </h2>
-        <p style={{ color: '#666', fontSize: 13 }}>{resume.target_role || 'Software Developer'}</p>
-        <div className="flex gap-4 mt-1 flex-wrap" style={{ color: '#888', fontSize: 11 }}>
+        <p style={{ color: accentColor, fontSize: 13, lineHeight: 1.4, marginBottom: 6 }}>{resume.target_role || 'Software Developer'}</p>
+        <div className="flex gap-4 mt-2 flex-wrap justify-center" style={{ color: '#888', fontSize: 11 }}>
           {resume.email && <span>📧 {resume.email}</span>}
           {resume.phone && <span>📱 {resume.phone}</span>}
           {resume.location && <span>📍 {resume.location}</span>}
