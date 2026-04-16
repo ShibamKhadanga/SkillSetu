@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
 import {
   User, Upload, Plus, X, Sparkles, Save, FileText,
-  GraduationCap, Briefcase, Award, Target, Phone, Mail, MapPin, Link2
+  GraduationCap, Briefcase, Award, Target, Phone, Mail, MapPin, Link2,
+  Github, Linkedin, CheckCircle2, AlertCircle, Loader2
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import api from '@/services/api'
@@ -13,7 +14,9 @@ const INTERESTS = [
   'Software Development', 'Data Science', 'Machine Learning', 'Web Development',
   'Mobile Development', 'Cloud Computing', 'Cybersecurity', 'DevOps',
   'UI/UX Design', 'Product Management', 'Business Analyst', 'Digital Marketing',
-  'Embedded Systems', 'Blockchain', 'Game Development', 'Robotics'
+  'Finance & Accounting', 'Teaching & Education', 'Content Writing', 'Law',
+  'Civil Engineering', 'Mechanical Engineering', 'Medicine & Healthcare', 'Agriculture',
+  'Fashion Design', 'Embedded Systems', 'Blockchain', 'Game Development', 'Robotics'
 ]
 
 const TabBtn = ({ active, onClick, children }) => (
@@ -26,21 +29,99 @@ const TabBtn = ({ active, onClick, children }) => (
   </button>
 )
 
+const StrengthMeter = ({ strength }) => {
+  const getColor = () => {
+    if (strength >= 80) return '#22c55e'
+    if (strength >= 50) return '#f97316'
+    return '#ef4444'
+  }
+  const getLabel = () => {
+    if (strength >= 80) return 'Strong 💪'
+    if (strength >= 50) return 'Good 👍'
+    if (strength >= 25) return 'Getting there 🏗️'
+    return 'Just started 🌱'
+  }
+  return (
+    <div className="glass-card rounded-2xl p-5 mb-6">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Target size={18} style={{ color: 'var(--accent)' }} />
+          <span className="font-display font-semibold text-sm"
+            style={{ color: 'var(--text-primary)' }}>Profile Strength</span>
+        </div>
+        <span className="font-display font-bold text-lg" style={{ color: getColor() }}>
+          {strength}% — {getLabel()}
+        </span>
+      </div>
+      <div className="h-3 rounded-full overflow-hidden" style={{ background: 'var(--bg-input)' }}>
+        <div className="h-full rounded-full transition-all duration-700"
+          style={{ width: `${strength}%`, background: getColor() }} />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
+        {[
+          { check: strength >= 10, label: 'Bio added' },
+          { check: strength >= 30, label: '3+ skills' },
+          { check: strength >= 50, label: 'Education' },
+          { check: strength >= 70, label: 'Projects' },
+        ].map(({ check, label }) => (
+          <div key={label} className="flex items-center gap-1.5 text-xs font-body"
+            style={{ color: check ? '#22c55e' : 'var(--text-muted)' }}>
+            {check ? <CheckCircle2 size={12} /> : <AlertCircle size={12} />} {label}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function StudentProfile() {
   const { user, updateUser } = useAuthStore()
   const [tab, setTab] = useState('personal')
   const [loading, setLoading] = useState(false)
+  const [pageLoading, setPageLoading] = useState(true)
   const [aiLoading, setAiLoading] = useState(false)
-  const [skills, setSkills] = useState(user?.skills || [])
+  const [skills, setSkills] = useState([])
   const [newSkill, setNewSkill] = useState('')
-  const [interests, setInterests] = useState(user?.interests || [])
-  const [education, setEducation] = useState(user?.education || [{ degree: '', institution: '', year: '', cgpa: '' }])
-  const [projects, setProjects] = useState(user?.projects || [{ name: '', description: '', tech: '', link: '' }])
-  const [achievements, setAchievements] = useState(user?.achievements || [''])
-  const [certificates, setCertificates] = useState(user?.certificates || [])
+  const [interests, setInterests] = useState([])
+  const [education, setEducation] = useState([{ degree: '', institution: '', year: '', cgpa: '' }])
+  const [projects, setProjects] = useState([{ name: '', description: '', tech: '', link: '' }])
+  const [achievements, setAchievements] = useState([''])
+  const [certificates, setCertificates] = useState([])
   const [uploadedFiles, setUploadedFiles] = useState([])
+  const [profileStrength, setProfileStrength] = useState(0)
 
-  const { register, handleSubmit } = useForm({ defaultValues: user })
+  const { register, handleSubmit, reset } = useForm({ defaultValues: user })
+
+  // Load profile from API on mount
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const res = await api.get('/student/profile')
+        const d = res.data?.data || res.data
+        if (d) {
+          reset({
+            name: d.name, username: d.username, email: d.email,
+            phone: d.phone, bio: d.bio, location: d.location,
+            portfolio_url: d.portfolio_url, github_url: d.github_url,
+            linkedin_url: d.linkedin_url, career_goal: d.career_goal,
+          })
+          setSkills(d.skills || [])
+          setInterests(d.interests || [])
+          setEducation(d.education?.length ? d.education : [{ degree: '', institution: '', year: '', cgpa: '' }])
+          setProjects(d.projects?.length ? d.projects : [{ name: '', description: '', tech: '', link: '' }])
+          setAchievements(d.achievements?.length ? d.achievements : [''])
+          setCertificates(d.certificates || [])
+          setUploadedFiles((d.uploaded_documents || []).map(doc => ({ name: doc.name, url: doc.url, status: 'done' })))
+          setProfileStrength(d.profile_strength || 0)
+        }
+      } catch {
+        // API error - keep defaults
+      } finally {
+        setPageLoading(false)
+      }
+    }
+    loadProfile()
+  }, [reset])
 
   // Dropzone for document upload
   const onDrop = useCallback(async (files) => {
@@ -51,7 +132,7 @@ export default function StudentProfile() {
       formData.append('file', f)
       try {
         const res = await api.post('/student/upload-document', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-        setUploadedFiles(prev => prev.map(pf => pf.name === f.name ? { ...pf, status: 'done', url: res.data.url } : pf))
+        setUploadedFiles(prev => prev.map(pf => pf.name === f.name ? { ...pf, status: 'done', url: res.data?.data?.url } : pf))
         toast.success(`${f.name} uploaded!`)
       } catch {
         setUploadedFiles(prev => prev.map(pf => pf.name === f.name ? { ...pf, status: 'error' } : pf))
@@ -68,16 +149,20 @@ export default function StudentProfile() {
   const extractSkillsWithAI = async () => {
     setAiLoading(true)
     try {
-      const res = await api.post('/ai/extract-skills', { projects, education, achievements, certificates: uploadedFiles.map(f => f.name) })
-      const newSkills = res.data.skills.filter(s => !skills.includes(s))
+      const res = await api.post('/ai/extract-skills', {
+        projects, education,
+        achievements: achievements.filter(Boolean),
+        certificates: uploadedFiles.filter(f => f.status === 'done').map(f => f.name),
+      })
+      const aiSkills = res.data?.data?.skills || []
+      const newSkills = aiSkills.filter(s => !skills.includes(s))
       setSkills(prev => [...prev, ...newSkills])
-      toast.success(`AI found ${newSkills.length} new skills from your profile!`)
+      toast.success(`AI found ${newSkills.length} new skills! 🧠`)
     } catch {
-      // Demo
-      const demoSkills = ['Python', 'React', 'Problem Solving', 'Team Collaboration', 'Git']
+      const demoSkills = ['Problem Solving', 'Communication', 'Team Collaboration', 'Research', 'Time Management']
       const newOnes = demoSkills.filter(s => !skills.includes(s))
       setSkills(prev => [...prev, ...newOnes])
-      toast.success(`AI found ${newOnes.length} skills from your profile!`)
+      toast.success(`AI found ${newOnes.length} skills! 🧠`)
     } finally {
       setAiLoading(false)
     }
@@ -86,10 +171,19 @@ export default function StudentProfile() {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      const payload = { ...data, skills, interests, education, projects, achievements: achievements.filter(Boolean) }
-      await api.put('/student/profile', payload)
+      const payload = {
+        ...data,
+        skills,
+        interests,
+        education: education.filter(e => e.degree || e.institution),
+        projects: projects.filter(p => p.name),
+        achievements: achievements.filter(Boolean),
+      }
+      const res = await api.put('/student/profile', payload)
+      const newStrength = res.data?.data?.profile_strength ?? profileStrength
+      setProfileStrength(newStrength)
       updateUser(payload)
-      toast.success('Profile saved successfully!')
+      toast.success('Profile saved successfully! ✅')
     } catch {
       toast.error('Failed to save profile')
     } finally {
@@ -100,6 +194,16 @@ export default function StudentProfile() {
   const addEducation = () => setEducation(prev => [...prev, { degree: '', institution: '', year: '', cgpa: '' }])
   const addProject = () => setProjects(prev => [...prev, { name: '', description: '', tech: '', link: '' }])
   const addAchievement = () => setAchievements(prev => [...prev, ''])
+
+  if (pageLoading) {
+    return (
+      <div className="space-y-4 max-w-4xl">
+        <div className="skeleton h-8 w-48 rounded-xl" />
+        <div className="skeleton h-20 rounded-2xl" />
+        <div className="skeleton h-64 rounded-2xl" />
+      </div>
+    )
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-4xl">
@@ -115,6 +219,9 @@ export default function StudentProfile() {
           Save Profile
         </button>
       </div>
+
+      {/* Profile Strength */}
+      <StrengthMeter strength={profileStrength} />
 
       {/* Tabs */}
       <div className="flex gap-2 overflow-x-auto pb-1" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
@@ -151,14 +258,14 @@ export default function StudentProfile() {
               <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Username</label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: 'var(--text-muted)' }}>@</span>
-                <input {...register('username')} className="input-field pl-7" placeholder="username" />
+                <input {...register('username')} className="input-field pl-7" placeholder="username" readOnly style={{ opacity: 0.7 }} />
               </div>
             </div>
             <div>
               <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Email</label>
               <div className="relative">
                 <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
-                <input {...register('email')} type="email" className="input-field pl-9" />
+                <input {...register('email')} type="email" className="input-field pl-9" readOnly style={{ opacity: 0.7 }} />
               </div>
             </div>
             <div>
@@ -176,12 +283,30 @@ export default function StudentProfile() {
               </div>
             </div>
             <div>
-              <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>LinkedIn / Portfolio URL</label>
+              <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Portfolio URL</label>
               <div className="relative">
                 <Link2 size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
-                <input {...register('portfolio_url')} className="input-field pl-9" placeholder="https://linkedin.com/in/you" />
+                <input {...register('portfolio_url')} className="input-field pl-9" placeholder="https://yourportfolio.com" />
               </div>
             </div>
+            <div>
+              <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>GitHub URL</label>
+              <div className="relative">
+                <Github size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
+                <input {...register('github_url')} className="input-field pl-9" placeholder="https://github.com/username" />
+              </div>
+            </div>
+            <div>
+              <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>LinkedIn URL</label>
+              <div className="relative">
+                <Linkedin size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
+                <input {...register('linkedin_url')} className="input-field pl-9" placeholder="https://linkedin.com/in/you" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Career Goal</label>
+            <input {...register('career_goal')} className="input-field" placeholder="e.g. Full Stack Developer, Data Scientist, CA, Teacher..." />
           </div>
           <div>
             <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>About / Bio</label>
@@ -213,12 +338,12 @@ export default function StudentProfile() {
                 <div>
                   <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Degree / Course</label>
                   <input value={edu.degree} onChange={e => setEducation(prev => prev.map((x, idx) => idx === i ? { ...x, degree: e.target.value } : x))}
-                    className="input-field" placeholder="B.Tech Computer Science" />
+                    className="input-field" placeholder="B.Tech CS / B.Com / MBBS / LLB..." />
                 </div>
                 <div>
                   <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Institution</label>
                   <input value={edu.institution} onChange={e => setEducation(prev => prev.map((x, idx) => idx === i ? { ...x, institution: e.target.value } : x))}
-                    className="input-field" placeholder="IIT Bombay" />
+                    className="input-field" placeholder="IIT Bombay / Delhi University..." />
                 </div>
                 <div>
                   <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Passing Year</label>
@@ -261,7 +386,7 @@ export default function StudentProfile() {
                   <div>
                     <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Project Name</label>
                     <input value={proj.name} onChange={e => setProjects(prev => prev.map((x, idx) => idx === i ? { ...x, name: e.target.value } : x))}
-                      className="input-field" placeholder="E-commerce App" />
+                      className="input-field" placeholder="E-commerce App / Research Paper..." />
                   </div>
                   <div>
                     <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>GitHub / Live Link</label>
@@ -270,9 +395,9 @@ export default function StudentProfile() {
                   </div>
                 </div>
                 <div>
-                  <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Technologies Used</label>
+                  <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Technologies / Tools Used</label>
                   <input value={proj.tech} onChange={e => setProjects(prev => prev.map((x, idx) => idx === i ? { ...x, tech: e.target.value } : x))}
-                    className="input-field" placeholder="React, Node.js, MongoDB, AWS" />
+                    className="input-field" placeholder="React, Node.js, MongoDB / AutoCAD, STAAD Pro..." />
                 </div>
                 <div>
                   <label className="block font-body text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Description</label>
@@ -312,12 +437,17 @@ export default function StudentProfile() {
                   </button>
                 </span>
               ))}
+              {skills.length === 0 && (
+                <p className="text-sm font-body" style={{ color: 'var(--text-muted)' }}>
+                  No skills added yet. Add manually or use AI Extract.
+                </p>
+              )}
             </div>
             <div className="flex gap-2">
               <input value={newSkill} onChange={e => setNewSkill(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter' && newSkill.trim()) { e.preventDefault(); setSkills(prev => [...prev, newSkill.trim()]); setNewSkill('') } }}
+                onKeyDown={e => { if (e.key === 'Enter' && newSkill.trim()) { e.preventDefault(); setSkills(prev => [...new Set([...prev, newSkill.trim()])]); setNewSkill('') } }}
                 className="input-field flex-1 text-sm" placeholder="Add skill (press Enter)" />
-              <button type="button" onClick={() => { if (newSkill.trim()) { setSkills(prev => [...prev, newSkill.trim()]); setNewSkill('') } }}
+              <button type="button" onClick={() => { if (newSkill.trim()) { setSkills(prev => [...new Set([...prev, newSkill.trim()])]); setNewSkill('') } }}
                 className="btn-primary px-4">
                 <Plus size={16} />
               </button>

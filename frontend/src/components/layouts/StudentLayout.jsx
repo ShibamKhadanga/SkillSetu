@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, User, Map, FileText, Briefcase,
   ClipboardList, MessageSquare, Globe, Mic, Sun, Moon,
-  LogOut, Bell, Menu, X, ChevronRight, Star, Trash2
+  LogOut, Bell, Menu, X, ChevronRight, Star, Trash2,
+  IndianRupee, Landmark, FileSearch
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
@@ -16,9 +17,14 @@ const navItems = [
   { path: '/student/profile',        label: 'My Profile',     icon: User },
   { path: '/student/roadmap',        label: 'Career Roadmap', icon: Map },
   { path: '/student/resume',         label: 'Resume Builder', icon: FileText },
+  { path: '/student/resume-score',   label: 'Resume Score',   icon: FileSearch },
   { path: '/student/jobs',           label: 'Job Explorer',   icon: Briefcase },
   { path: '/student/applications',   label: 'Applications',   icon: ClipboardList },
+  { section: 'AI Tools' },
+  { path: '/student/salary-insights',label: 'Salary Insights', icon: IndianRupee },
+  { path: '/student/govt-jobs',      label: 'Govt Jobs',      icon: Landmark },
   { path: '/student/mock-interview', label: 'Mock Interview', icon: Mic },
+  { section: 'Other' },
   { path: '/student/messages',       label: 'Messages',       icon: MessageSquare },
   { path: '/student/portfolio',      label: 'My Portfolio',   icon: Globe },
 ]
@@ -31,7 +37,20 @@ export default function StudentLayout() {
   const [sidebarOpen, setSidebarOpen]       = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleting, setDeleting]             = useState(false)
-  const [notifCount]                        = useState(0)
+  const [notifCount, setNotifCount]          = useState(0)
+
+  // Fetch notification count
+  useEffect(() => {
+    const fetchNotifs = async () => {
+      try {
+        const res = await api.get('/notifications/count')
+        setNotifCount(res.data?.count || 0)
+      } catch { /* ignore */ }
+    }
+    fetchNotifs()
+    const interval = setInterval(fetchNotifs, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -97,7 +116,14 @@ export default function StudentLayout() {
 
       {/* Nav */}
       <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
-        {navItems.map(({ path, label, icon: Icon }) => {
+        {navItems.map((item, idx) => {
+          if (item.section) {
+            return (
+              <p key={item.section} className="text-xs font-body font-semibold uppercase tracking-wider px-3 pt-4 pb-1"
+                style={{ color: 'var(--text-muted)' }}>{item.section}</p>
+            )
+          }
+          const { path, label, icon: Icon } = item
           const active = isActive({ path, exact: path === '/student' })
           return (
             <Link key={path} to={path} onClick={() => setSidebarOpen(false)}

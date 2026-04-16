@@ -119,12 +119,15 @@ async def get_profile(
         "portfolio_url": profile.portfolio_url,
         "github_url": profile.github_url, "linkedin_url": profile.linkedin_url,
         "career_goal": profile.career_goal,
+        "suggested_role": profile.suggested_role,
         "skills":       profile.skills       or [],
         "interests":    profile.interests    or [],
         "education":    profile.education    or [],
         "projects":     profile.projects     or [],
         "achievements": profile.achievements or [],
         "certificates": profile.certificates or [],
+        "uploaded_documents": profile.uploaded_documents or [],
+        "ai_roadmap":   profile.ai_roadmap,
         "profile_strength": profile.profile_strength,
     }}
 

@@ -13,6 +13,9 @@ import StudentDashboard from '@/pages/student/StudentDashboard'
 import StudentProfile from '@/pages/student/StudentProfile'
 import Roadmap from '@/pages/student/Roadmap'
 import ResumeBuilder from '@/pages/student/ResumeBuilder'
+import ResumeScore from '@/pages/student/ResumeScore'
+import SalaryInsights from '@/pages/student/SalaryInsights'
+import GovtJobs from '@/pages/student/GovtJobs'
 import JobExplorer from '@/pages/student/JobExplorer'
 import Applications from '@/pages/student/Applications'
 import StudentMessages from '@/pages/student/StudentMessages'
@@ -67,11 +70,14 @@ export default function App() {
         <Route path="profile" element={<StudentProfile />} />
         <Route path="roadmap" element={<Roadmap />} />
         <Route path="resume" element={<ResumeBuilder />} />
+        <Route path="resume-score" element={<ResumeScore />} />
+        <Route path="salary-insights" element={<SalaryInsights />} />
+        <Route path="govt-jobs" element={<GovtJobs />} />
         <Route path="jobs" element={<JobExplorer />} />
         <Route path="applications" element={<Applications />} />
+        <Route path="mock-interview" element={<MockInterview />} />
         <Route path="messages" element={<StudentMessages />} />
         <Route path="portfolio" element={<Portfolio />} />
-        <Route path="mock-interview" element={<MockInterview />} />
       </Route>
 
       {/* Recruiter Routes */}

@@ -7,10 +7,9 @@ from sqlalchemy import select
 from config.db import get_db
 from models.models import User, StudentProfile
 from utils.jwt_utils import get_current_user, get_student_user
-from services.gemini_service import GeminiService
+from services.gemini_service import gemini_service
 
 router = APIRouter()
-gemini = GeminiService()
 
 
 class ExtractSkillsRequest(BaseModel):
@@ -39,6 +38,20 @@ class JobDescRequest(BaseModel):
     company: Optional[str]       = None
     skills:  Optional[List[str]] = []
 
+class ResumeScoreRequest(BaseModel):
+    resume_text: str
+    target_role: Optional[str] = "Professional"
+
+class SalaryRequest(BaseModel):
+    role:       str
+    location:   Optional[str] = "India"
+    experience: Optional[str] = "Fresher"
+
+class GovtJobsRequest(BaseModel):
+    field:     Optional[str] = "General"
+    education: Optional[str] = "Graduate"
+    state:     Optional[str] = "All India"
+
 
 async def _get_profile(user_id: str, db: AsyncSession) -> Optional[StudentProfile]:
     r = await db.execute(select(StudentProfile).where(StudentProfile.user_id == user_id))
@@ -51,7 +64,7 @@ async def extract_skills(
     current_user: User         = Depends(get_student_user),
     db:           AsyncSession = Depends(get_db),
 ):
-    skills = await gemini.extract_skills(
+    skills = await gemini_service.extract_skills(
         body.projects, body.education, body.achievements, body.certificates
     )
     profile = await _get_profile(current_user.id, db)
@@ -69,7 +82,7 @@ async def generate_roadmap(
     current_user: User         = Depends(get_student_user),
     db:           AsyncSession = Depends(get_db),
 ):
-    roadmap = await gemini.generate_roadmap(body.goal, body.current_skills, body.education)
+    roadmap = await gemini_service.generate_roadmap(body.goal, body.current_skills, body.education)
     profile = await _get_profile(current_user.id, db)
     if profile:
         profile.career_goal    = body.goal
@@ -86,7 +99,7 @@ async def generate_resume(
     db:           AsyncSession = Depends(get_db),
 ):
     profile     = await _get_profile(current_user.id, db)
-    resume_data = await gemini.generate_resume(current_user, profile, body.target_role)
+    resume_data = await gemini_service.build_resume(current_user, profile, body.target_role)
     return {"success": True,
             "data": {"resume": resume_data},
             "message": "Resume generated! ✨"}
@@ -97,7 +110,7 @@ async def mock_interview(
     body:         MockInterviewRequest,
     current_user: User = Depends(get_student_user),
 ):
-    result = await gemini.evaluate_interview_answer(
+    result = await gemini_service.evaluate_interview_answer(
         body.role, body.answer, body.question_index, body.history
     )
     return {"success": True, "data": result}
@@ -108,7 +121,7 @@ async def generate_job_desc(
     body:         JobDescRequest,
     current_user: User = Depends(get_current_user),
 ):
-    desc = await gemini.generate_job_description(body.title, body.company, body.skills)
+    desc = await gemini_service.generate_job_description(body.title, body.company, body.skills)
     return {"success": True, "data": {"description": desc}}
 
 
@@ -124,7 +137,7 @@ async def skill_gap(
 
     matching = [s for s in job_skills if s.lower() in [u.lower() for u in user_skills]]
     missing  = [s for s in job_skills if s.lower() not in [u.lower() for u in user_skills]]
-    recs     = await gemini.analyze_skill_gap(user_skills, job_skills, missing)
+    recs     = await gemini_service.analyze_skill_gap(user_skills, job_skills, missing)
 
     return {"success": True, "data": {
         "matching_skills":  matching,
@@ -142,7 +155,43 @@ async def suggest_roles(
     profile = await _get_profile(current_user.id, db)
     if not profile or not profile.skills:
         return {"success": True, "data": {"roles": ["Software Developer", "Data Analyst"]}}
-    roles = await gemini.suggest_job_roles(
+    roles = await gemini_service.suggest_job_roles(
         profile.skills, profile.education or [], profile.interests or []
     )
     return {"success": True, "data": {"roles": roles}}
+
+
+# ===================================================================
+# NEW — Resume Score Checker
+# ===================================================================
+@router.post("/score-resume")
+async def score_resume(
+    body:         ResumeScoreRequest,
+    current_user: User = Depends(get_student_user),
+):
+    result = await gemini_service.score_resume(body.resume_text, body.target_role)
+    return {"success": True, "data": result, "message": "Resume scored! 📊"}
+
+
+# ===================================================================
+# NEW — Salary Insights
+# ===================================================================
+@router.post("/salary-insights")
+async def salary_insights(
+    body:         SalaryRequest,
+    current_user: User = Depends(get_current_user),
+):
+    result = await gemini_service.get_salary_insights(body.role, body.location, body.experience)
+    return {"success": True, "data": result, "message": "Salary insights ready! 💰"}
+
+
+# ===================================================================
+# NEW — Government Job Finder
+# ===================================================================
+@router.post("/govt-jobs")
+async def govt_jobs(
+    body:         GovtJobsRequest,
+    current_user: User = Depends(get_student_user),
+):
+    result = await gemini_service.find_govt_jobs(body.field, body.education, body.state)
+    return {"success": True, "data": result, "message": "Government jobs found! 🏛️"}

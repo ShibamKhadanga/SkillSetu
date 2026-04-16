@@ -1,17 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Search, MapPin, Briefcase, Clock, IndianRupee, Zap, Filter, X, CheckCircle2, Send, Building2, ExternalLink } from 'lucide-react'
+import { Search, MapPin, Briefcase, Clock, IndianRupee, Zap, X, CheckCircle2, Send, ExternalLink, Loader2 } from 'lucide-react'
 import api from '@/services/api'
 import { useAuthStore } from '@/store/authStore'
 import toast from 'react-hot-toast'
-
-const DEMO_JOBS = [
-  { id: 1, title: 'Full Stack Developer', company: 'TechCorp India', location: 'Bangalore', type: 'Full-time', salary: '₹8-12 LPA', match: 92, skills: ['React', 'Node.js', 'MongoDB'], posted: '2 days ago', description: 'We are looking for a passionate Full Stack Developer to join our growing team...', logo: 'T', remote: false },
-  { id: 2, title: 'Machine Learning Engineer', company: 'AI Solutions Pvt', location: 'Remote', type: 'Full-time', salary: '₹10-18 LPA', match: 88, skills: ['Python', 'TensorFlow', 'SQL', 'Scikit-learn'], posted: '1 day ago', description: 'Join our AI team to build cutting-edge ML models for production systems...', logo: 'A', remote: true },
-  { id: 3, title: 'Frontend Developer Intern', company: 'StartupXYZ', location: 'Hyderabad', type: 'Internship', salary: '₹20-30k/month', match: 85, skills: ['React', 'TypeScript', 'CSS'], posted: '3 days ago', description: 'Exciting internship opportunity for talented frontend developers...', logo: 'S', remote: false },
-  { id: 4, title: 'Data Analyst', company: 'Infosys', location: 'Pune', type: 'Full-time', salary: '₹6-9 LPA', match: 79, skills: ['Python', 'SQL', 'Power BI', 'Excel'], posted: '5 days ago', description: 'Analyze business data and provide actionable insights to stakeholders...', logo: 'I', remote: false },
-  { id: 5, title: 'DevOps Engineer', company: 'CloudBase Technologies', location: 'Remote', type: 'Full-time', salary: '₹12-20 LPA', match: 72, skills: ['Docker', 'Kubernetes', 'AWS', 'CI/CD'], posted: '1 week ago', description: 'Manage and optimize cloud infrastructure for high-traffic applications...', logo: 'C', remote: true },
-  { id: 6, title: 'Android Developer', company: 'MobileFirst', location: 'Chennai', type: 'Full-time', salary: '₹7-11 LPA', match: 68, skills: ['Kotlin', 'Android SDK', 'REST APIs', 'Firebase'], posted: '4 days ago', description: 'Build feature-rich Android applications used by millions of users...', logo: 'M', remote: false },
-]
 
 // Apply Modal
 const ApplyModal = ({ job, onClose, onApply }) => {
@@ -20,7 +11,7 @@ const ApplyModal = ({ job, onClose, onApply }) => {
     name: user?.name || '',
     email: user?.email || '',
     phone: user?.phone || '',
-    cover_letter: `Dear Hiring Team at ${job?.company},\n\nI am excited to apply for the ${job?.title} position. With my background in ${user?.skills?.slice(0,3).join(', ') || 'software development'}, I believe I can contribute significantly to your team.\n\nI look forward to discussing this opportunity.\n\nBest regards,\n${user?.name || 'Applicant'}`,
+    cover_letter: `Dear Hiring Team at ${job?.company},\n\nI am excited to apply for the ${job?.title} position. With my background in ${job?.required_skills?.slice(0, 3).join(', ') || 'this field'}, I believe I can contribute significantly to your team.\n\nI look forward to discussing this opportunity.\n\nBest regards,\n${user?.name || 'Applicant'}`,
     experience: '',
     notice_period: 'Immediate',
   })
@@ -33,9 +24,14 @@ const ApplyModal = ({ job, onClose, onApply }) => {
       toast.success('🎉 Application sent successfully!')
       onApply(job.id)
       onClose()
-    } catch {
-      toast.success('🎉 Application sent! (Demo mode)')
-      onApply(job.id)
+    } catch (err) {
+      const msg = err.response?.data?.detail || 'Application failed'
+      if (msg.includes('already applied')) {
+        toast.error('You have already applied to this job')
+        onApply(job.id)
+      } else {
+        toast.error(msg)
+      }
       onClose()
     } finally {
       setSubmitting(false)
@@ -45,7 +41,6 @@ const ApplyModal = ({ job, onClose, onApply }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}>
       <div className="w-full max-w-xl rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-        {/* Header */}
         <div className="flex items-center justify-between mb-5">
           <div>
             <h3 className="font-display font-bold text-lg" style={{ color: 'var(--text-primary)' }}>Apply to {job?.title}</h3>
@@ -120,21 +115,50 @@ const ApplyModal = ({ job, onClose, onApply }) => {
 }
 
 export default function JobExplorer() {
-  const [jobs, setJobs] = useState(DEMO_JOBS)
+  const [jobs, setJobs] = useState([])
+  const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
   const [selectedJob, setSelectedJob] = useState(null)
   const [applyingJob, setApplyingJob] = useState(null)
   const [appliedJobs, setAppliedJobs] = useState([])
 
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const res = await api.get('/jobs')
+        const data = res.data?.data || res.data || []
+        setJobs(Array.isArray(data) ? data : [])
+      } catch {
+        setJobs([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchJobs()
+  }, [])
+
   const filtered = jobs.filter(j => {
-    const matchSearch = !search || j.title.toLowerCase().includes(search.toLowerCase())
-      || j.company.toLowerCase().includes(search.toLowerCase())
-      || j.skills.some(s => s.toLowerCase().includes(search.toLowerCase()))
-    const matchFilter = filter === 'all' || j.type.toLowerCase().includes(filter)
-      || (filter === 'remote' && j.remote)
+    const matchSearch = !search || j.title?.toLowerCase().includes(search.toLowerCase())
+      || j.company?.toLowerCase().includes(search.toLowerCase())
+      || (j.required_skills || []).some(s => s.toLowerCase().includes(search.toLowerCase()))
+    const matchFilter = filter === 'all'
+      || (filter === 'remote' && j.is_remote)
+      || j.job_type?.toLowerCase().includes(filter)
     return matchSearch && matchFilter
   })
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <div className="skeleton h-8 w-48 rounded-xl" />
+        <div className="skeleton h-12 rounded-xl" />
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          {[...Array(4)].map((_, i) => <div key={i} className="skeleton h-48 rounded-2xl" />)}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-5">
@@ -168,27 +192,40 @@ export default function JobExplorer() {
       </div>
 
       <p className="font-body text-sm" style={{ color: 'var(--text-muted)' }}>
-        Showing {filtered.length} jobs matched to your profile
+        Showing {filtered.length} jobs {filtered.length > 0 && 'matched to your profile'}
       </p>
+
+      {filtered.length === 0 && (
+        <div className="glass-card rounded-2xl p-12 text-center">
+          <Briefcase size={40} className="mx-auto mb-3" style={{ color: 'var(--text-muted)', opacity: 0.4 }} />
+          <p className="font-display font-semibold" style={{ color: 'var(--text-muted)' }}>No jobs found</p>
+          <p className="font-body text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+            {jobs.length === 0 ? 'No jobs posted yet. Check back soon!' : 'Try adjusting your search or filters.'}
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         {filtered.map(job => {
           const applied = appliedJobs.includes(job.id)
+          const matchColor = (job.match || 0) >= 85 ? '#22c55e' : (job.match || 0) >= 60 ? 'var(--accent)' : 'var(--text-secondary)'
           return (
             <div key={job.id} className="glass-card-hover rounded-2xl p-5 cursor-pointer"
               onClick={() => setSelectedJob(selectedJob?.id === job.id ? null : job)}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-display font-bold text-lg flex-shrink-0"
                   style={{ background: 'var(--accent)' }}>
-                  {job.logo}
+                  {job.company?.[0] || 'J'}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="font-display font-bold text-base" style={{ color: 'var(--text-primary)' }}>{job.title}</h3>
-                    <span className="text-xs font-body font-semibold px-2 py-1 rounded-lg flex-shrink-0"
-                      style={{ background: job.match >= 85 ? 'rgba(34,197,94,0.1)' : 'var(--accent-light)', color: job.match >= 85 ? '#22c55e' : 'var(--accent)' }}>
-                      {job.match}%
-                    </span>
+                    {(job.match || 0) > 0 && (
+                      <span className="text-xs font-body font-semibold px-2 py-1 rounded-lg flex-shrink-0"
+                        style={{ background: (job.match || 0) >= 85 ? 'rgba(34,197,94,0.1)' : 'var(--accent-light)', color: matchColor }}>
+                        {job.match}%
+                      </span>
+                    )}
                   </div>
                   <p className="font-body text-sm" style={{ color: 'var(--text-secondary)' }}>{job.company}</p>
                 </div>
@@ -196,13 +233,15 @@ export default function JobExplorer() {
 
               <div className="flex flex-wrap gap-3 mb-3 text-xs font-body" style={{ color: 'var(--text-muted)' }}>
                 <span className="flex items-center gap-1"><MapPin size={12} /> {job.location}</span>
-                <span className="flex items-center gap-1"><Briefcase size={12} /> {job.type}</span>
-                <span className="flex items-center gap-1"><IndianRupee size={12} /> {job.salary}</span>
-                <span className="flex items-center gap-1"><Clock size={12} /> {job.posted}</span>
+                <span className="flex items-center gap-1"><Briefcase size={12} /> {job.job_type}</span>
+                {job.salary && <span className="flex items-center gap-1"><IndianRupee size={12} /> {job.salary}</span>}
+                {job.posted && <span className="flex items-center gap-1"><Clock size={12} /> {job.posted}</span>}
+                {job.urgent && <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444' }}>Urgent</span>}
+                {job.is_remote && <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.1)', color: '#22c55e' }}>Remote</span>}
               </div>
 
               <div className="flex flex-wrap gap-1.5 mb-4">
-                {job.skills.map(s => (
+                {(job.required_skills || []).slice(0, 5).map(s => (
                   <span key={s} className="text-xs px-2 py-0.5 rounded-lg font-body"
                     style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}>
                     {s}
@@ -210,8 +249,7 @@ export default function JobExplorer() {
                 ))}
               </div>
 
-              {/* Expanded description */}
-              {selectedJob?.id === job.id && (
+              {selectedJob?.id === job.id && job.description && (
                 <div className="mb-4 p-3 rounded-xl text-sm font-body" style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}>
                   {job.description}
                 </div>
@@ -229,10 +267,6 @@ export default function JobExplorer() {
                     <Zap size={15} /> One-Click Apply
                   </button>
                 )}
-                <button className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: 'var(--bg-input)', color: 'var(--text-muted)' }}>
-                  <ExternalLink size={15} />
-                </button>
               </div>
             </div>
           )
