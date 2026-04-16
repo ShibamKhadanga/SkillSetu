@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const SKILL_SUGGESTIONS = ['Python', 'React', 'Node.js', 'Java', 'C++', 'SQL', 'Machine Learning', 'Docker', 'AWS', 'TypeScript', 'MongoDB', 'PostgreSQL', 'Kubernetes', 'Git', 'REST APIs']
 
 export default function PostJob() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm()
   const [skills, setSkills] = useState([])
   const [newSkill, setNewSkill] = useState('')
   const [loading, setLoading] = useState(false)
@@ -27,10 +27,18 @@ export default function PostJob() {
     setAiGenerating(true)
     try {
       const res = await api.post('/ai/generate-job-description', { title, company, skills })
-      // In demo, we'll just show a toast
-      toast.success('AI description generated! Check the description field.')
+      const desc = res.data?.data?.description
+      if (desc) {
+        setValue('description', desc, { shouldValidate: true })
+        toast.success('AI description generated! ✨')
+      } else {
+        toast.success('AI description generated!')
+      }
     } catch {
-      toast.success('AI description ready! (Demo mode)')
+      // Good demo fallback
+      const demoDesc = `We are looking for a talented ${title} to join ${company || 'our team'}.\n\nKey Responsibilities:\n• Lead development of high-impact projects using ${skills.slice(0,3).join(', ') || 'relevant technologies'}\n• Collaborate with cross-functional teams to deliver scalable solutions\n• Mentor junior team members and participate in code reviews\n• Stay updated with the latest industry trends and best practices\n• Contribute to architecture decisions and technical strategy\n\nQualifications:\n• Strong experience with ${skills.join(', ') || 'required technologies'}\n• Excellent problem-solving and communication skills\n• B.Tech/B.E. or equivalent degree preferred\n• Passion for building great products\n\nWe offer competitive salary, flexible work environment, learning opportunities, and health benefits.`
+      setValue('description', demoDesc, { shouldValidate: true })
+      toast.success('AI description generated! (Demo mode) ✨')
     } finally {
       setAiGenerating(false)
     }

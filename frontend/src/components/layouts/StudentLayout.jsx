@@ -4,7 +4,7 @@ import {
   LayoutDashboard, User, Map, FileText, Briefcase,
   ClipboardList, MessageSquare, Globe, Mic, Sun, Moon,
   LogOut, Bell, Menu, X, ChevronRight, Star, Trash2,
-  IndianRupee, Landmark, FileSearch
+  IndianRupee, Landmark, FileSearch, GitBranch, Target
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
@@ -15,12 +15,13 @@ import toast from 'react-hot-toast'
 const navItems = [
   { path: '/student',                label: 'Dashboard',      icon: LayoutDashboard, exact: true },
   { path: '/student/profile',        label: 'My Profile',     icon: User },
-  { path: '/student/roadmap',        label: 'Career Roadmap', icon: Map },
+  { path: '/student/roadmap',        label: 'Career Roadmap', icon: GitBranch },
   { path: '/student/resume',         label: 'Resume Builder', icon: FileText },
   { path: '/student/resume-score',   label: 'Resume Score',   icon: FileSearch },
   { path: '/student/jobs',           label: 'Job Explorer',   icon: Briefcase },
   { path: '/student/applications',   label: 'Applications',   icon: ClipboardList },
   { section: 'AI Tools' },
+  { path: '/student/skill-gap',      label: 'Skill Gap',      icon: Target },
   { path: '/student/salary-insights',label: 'Salary Insights', icon: IndianRupee },
   { path: '/student/govt-jobs',      label: 'Govt Jobs',      icon: Landmark },
   { path: '/student/mock-interview', label: 'Mock Interview', icon: Mic },

@@ -21,6 +21,7 @@ import Applications from '@/pages/student/Applications'
 import StudentMessages from '@/pages/student/StudentMessages'
 import Portfolio from '@/pages/student/Portfolio'
 import MockInterview from '@/pages/student/MockInterview'
+import SkillGap from '@/pages/student/SkillGap'
 
 // Recruiter Pages
 import RecruiterDashboard from '@/pages/recruiter/RecruiterDashboard'
@@ -76,6 +77,7 @@ export default function App() {
         <Route path="jobs" element={<JobExplorer />} />
         <Route path="applications" element={<Applications />} />
         <Route path="mock-interview" element={<MockInterview />} />
+        <Route path="skill-gap" element={<SkillGap />} />
         <Route path="messages" element={<StudentMessages />} />
         <Route path="portfolio" element={<Portfolio />} />
       </Route>
