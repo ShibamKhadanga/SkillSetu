@@ -10,8 +10,8 @@ const CandidateDetail = ({ candidate, onClose, onContact }) => (
       <div className="p-6">
         <div className="flex items-start justify-between mb-5">
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-display font-bold text-xl flex-shrink-0"
-              style={{ background: 'var(--accent)' }}>
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center font-display font-bold text-xl flex-shrink-0"
+              style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
               {candidate.avatar}
             </div>
             <div>
@@ -168,8 +168,8 @@ export default function Candidates() {
             return (
               <div key={c.id} className="glass-card-hover rounded-2xl p-5">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-display font-bold flex-shrink-0"
-                    style={{ background: 'var(--accent)' }}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold flex-shrink-0"
+                    style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                     {c.avatar || c.name?.slice(0,2).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">

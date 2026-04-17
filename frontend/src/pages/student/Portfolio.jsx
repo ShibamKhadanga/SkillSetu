@@ -88,45 +88,50 @@ export default function Portfolio({ isPublic = false }) {
         <div className="absolute inset-0 opacity-10"
           style={{ backgroundImage: 'radial-gradient(circle at 80% 50%, white, transparent 60%)' }} />
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-8 relative">
-          <div className="w-28 h-28 rounded-3xl flex items-center justify-center text-white font-display font-black text-5xl flex-shrink-0"
-            style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)' }}>
+          <div className="w-28 h-28 rounded-3xl flex items-center justify-center font-display font-black text-5xl flex-shrink-0"
+            style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', color: 'var(--neon-box-text)' }}>
             {data.name[0]}
           </div>
           <div className="text-center sm:text-left flex-1">
-            <h1 className="font-display font-black text-4xl text-white mb-2">{data.name}</h1>
-            <p className="font-body text-xl text-white/80 mb-3">{data.title || 'Student'}</p>
-            <div className="flex flex-wrap justify-center sm:justify-start gap-4 text-white/70 text-sm font-body">
+            <h1 className="font-display font-black text-4xl mb-2" style={{ color: 'var(--neon-box-text)' }}>{data.name}</h1>
+            <p className="font-body text-xl mb-3" style={{ color: 'var(--neon-box-text)', opacity: 0.8 }}>{data.title || 'Student'}</p>
+            <div className="flex flex-wrap justify-center sm:justify-start gap-4 text-sm font-body" style={{ color: 'var(--neon-box-text)', opacity: 0.7 }}>
               {data.location && <span className="flex items-center gap-1"><MapPin size={14} /> {data.location}</span>}
-              {data.email && <a href={`mailto:${data.email}`} className="flex items-center gap-1 hover:text-white"><Mail size={14} /> {data.email}</a>}
+              {data.email && <a href={`mailto:${data.email}`} className="flex items-center gap-1" style={{ color: 'var(--neon-box-text)' }}><Mail size={14} /> {data.email}</a>}
             </div>
           </div>
           <div className="flex gap-3 flex-shrink-0 flex-wrap justify-center">
             {data.github_url && (
               <a href={data.github_url} target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/20 text-white hover:bg-white/30 transition-colors">
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
+                style={{ background: 'rgba(255,255,255,0.2)', color: 'var(--neon-box-text)' }}>
                 <Github size={18} />
               </a>
             )}
             {data.linkedin_url && (
               <a href={data.linkedin_url} target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/20 text-white hover:bg-white/30 transition-colors">
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
+                style={{ background: 'rgba(255,255,255,0.2)', color: 'var(--neon-box-text)' }}>
                 <Linkedin size={18} />
               </a>
             )}
             {data.portfolio_url && (
               <a href={data.portfolio_url} target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/20 text-white hover:bg-white/30 transition-colors">
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
+                style={{ background: 'rgba(255,255,255,0.2)', color: 'var(--neon-box-text)' }}>
                 <Globe size={18} />
               </a>
             )}
             <button onClick={handleShare}
-              className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/20 text-white hover:bg-white/30 transition-colors"
+              className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
+              style={{ background: 'rgba(255,255,255,0.2)', color: 'var(--neon-box-text)' }}
               title="Share portfolio">
               <Share2 size={18} />
             </button>
             {!isPublic && (
               <Link to="/student/profile"
-                className="flex items-center gap-2 px-4 h-10 rounded-xl bg-white/20 text-white hover:bg-white/30 transition-colors text-sm font-body">
+                className="flex items-center gap-2 px-4 h-10 rounded-xl transition-colors text-sm font-body"
+                style={{ background: 'rgba(255,255,255,0.2)', color: 'var(--neon-box-text)' }}>
                 <Edit size={15} /> Edit
               </Link>
             )}

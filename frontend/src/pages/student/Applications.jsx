@@ -103,8 +103,8 @@ export default function Applications() {
               <div className="p-5 cursor-pointer" onClick={() => setExpanded(isExpanded ? null : app.id)}>
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white font-display font-bold flex-shrink-0"
-                      style={{ background: 'var(--accent)' }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center font-display font-bold flex-shrink-0"
+                      style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                       {(app.company || 'C')[0]}
                     </div>
                     <div>

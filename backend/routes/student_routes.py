@@ -219,6 +219,39 @@ async def upload_document(
             "message": f"{file.filename} uploaded! ✅"}
 
 
+@router.post("/upload-avatar")
+async def upload_avatar(
+    file:         UploadFile   = File(...),
+    current_user: User         = Depends(get_student_user),
+    db:           AsyncSession = Depends(get_db),
+):
+    allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"]
+    if file.content_type not in allowed:
+        raise HTTPException(400, "Only image files are allowed (JPG, PNG, WebP)")
+
+    contents = await file.read()
+    if len(contents) > 2 * 1024 * 1024:
+        raise HTTPException(400, "Image too large — max 2 MB")
+
+    # Try Cloudinary; fall back to base64 data URL
+    import base64
+    url = f"data:{file.content_type};base64,{base64.b64encode(contents).decode()}"
+    try:
+        from config.cloudinary_config import upload_file as cloud_upload
+        result = await cloud_upload(contents, file.filename, f"skillsetu/avatars/{current_user.id}")
+        url    = result["url"]
+    except Exception:
+        pass  # Cloudinary not configured — use data URL
+
+    current_user.avatar_url = url
+    current_user.updated_at = datetime.utcnow()
+    await db.commit()
+
+    return {"success": True,
+            "data": {"avatar_url": url},
+            "message": "Profile photo updated! 📸"}
+
+
 @router.post("/resume/download")
 async def download_resume(
     body:         dict,

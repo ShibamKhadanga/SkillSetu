@@ -156,8 +156,8 @@ export default function RecruiterMessages() {
                 style={selected === c.conversation_id ? { background: 'var(--accent-light)', borderRight: '2px solid var(--accent)' } : {}}
                 onMouseOver={e => { if (selected !== c.conversation_id) e.currentTarget.style.background = 'var(--bg-input)' }}
                 onMouseOut={e => { if (selected !== c.conversation_id) e.currentTarget.style.background = 'transparent' }}>
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0"
-                  style={{ background: 'var(--accent)' }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
+                  style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                   {(c.other_user?.name || 'S').slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -167,8 +167,8 @@ export default function RecruiterMessages() {
                   </div>
                   <p className="font-body text-xs truncate mt-0.5" style={{ color: 'var(--text-secondary)' }}>{c.last_message}</p>
                   {c.unread_count > 0 && (
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white font-body font-bold mt-1"
-                      style={{ background: 'var(--accent)', fontSize: 10 }}>{c.unread_count}</span>
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full font-body font-bold mt-1"
+                      style={{ background: 'var(--accent)', color: 'var(--neon-box-text)', fontSize: 10 }}>{c.unread_count}</span>
                   )}
                 </div>
               </button>
@@ -179,8 +179,8 @@ export default function RecruiterMessages() {
         {/* Right — chat */}
         <div className="flex-1 flex flex-col min-w-0">
           <div className="flex items-center gap-3 p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-display font-bold"
-              style={{ background: 'var(--accent)' }}>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold"
+              style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
               {(currentConvo?.other_user?.name || 'S').slice(0, 2).toUpperCase()}
             </div>
             <div>
@@ -198,15 +198,15 @@ export default function RecruiterMessages() {
             {currentMessages.map(msg => (
               <div key={msg.id} className={`flex gap-2 ${msg.is_mine ? 'justify-end' : 'justify-start'}`}>
                 {!msg.is_mine && (
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                    style={{ background: 'var(--accent)' }}>
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                     {(currentConvo?.other_user?.name || 'S')[0].toUpperCase()}
                   </div>
                 )}
                 <div className="max-w-[70%]">
                   <div className="rounded-2xl px-4 py-2.5"
                     style={msg.is_mine
-                      ? { background: 'var(--accent)', color: 'white', borderBottomRightRadius: 4 }
+                      ? { background: 'var(--accent)', color: 'var(--neon-box-text)', borderBottomRightRadius: 4 }
                       : { background: 'var(--bg-input)', color: 'var(--text-primary)', borderBottomLeftRadius: 4 }}>
                     <p className="font-body text-sm leading-relaxed">{msg.content}</p>
                   </div>

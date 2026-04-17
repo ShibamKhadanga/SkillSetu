@@ -22,8 +22,8 @@ const ProfileModal = ({ app, onClose, onMessage }) => (
       <div className="flex items-center justify-between p-5 border-b"
         style={{ borderColor: 'var(--border-subtle)', background: 'var(--accent-light)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-display font-bold text-lg"
-            style={{ background: 'var(--accent)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-lg"
+            style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
             {app.name?.slice(0,2).toUpperCase()}
           </div>
           <div>
@@ -285,8 +285,8 @@ export default function RecruiterApplications() {
                     style={{ border: app.status === 'offered' ? '1.5px solid #22c55e' : '1px solid var(--border-subtle)' }}>
                     <div className="flex items-center gap-4">
                       {/* Avatar */}
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white font-display font-bold flex-shrink-0"
-                        style={{ background: 'var(--accent)' }}>
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center font-display font-bold flex-shrink-0"
+                        style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                         {app.name?.slice(0,2).toUpperCase()}
                       </div>
 

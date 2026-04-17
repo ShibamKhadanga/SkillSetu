@@ -166,8 +166,8 @@ export default function Landing() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-display font-black text-white text-lg transition-all duration-300 group-hover:scale-110"
-                style={{ background: 'var(--accent)', boxShadow: '0 4px 15px var(--shadow)' }}
+                className="w-9 h-9 rounded-xl flex items-center justify-center font-display font-black text-lg transition-all duration-300 group-hover:scale-110"
+                style={{ background: 'var(--accent)', boxShadow: '0 4px 15px var(--shadow)', color: 'var(--neon-box-text)' }}
               >
                 S
               </div>
@@ -378,7 +378,7 @@ export default function Landing() {
                 <div
                   className={`w-12 h-12 rounded-xl bg-gradient-to-br ${isDark ? darkColor : color} flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}
                 >
-                  <Icon size={22} className="text-white" />
+                  <Icon size={22} style={{ color: 'var(--neon-box-text)' }} />
                 </div>
                 <h3 className="font-display font-bold text-lg mb-2" style={{ color: 'var(--text-primary)' }}>
                   {title}
@@ -505,8 +505,8 @@ export default function Landing() {
                 </p>
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm text-white"
-                    style={{ background: 'var(--accent)' }}
+                    className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm"
+                    style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}
                   >
                     {avatar}
                   </div>
@@ -570,8 +570,8 @@ export default function Landing() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-black text-white"
-                style={{ background: 'var(--accent)' }}
+                className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-black"
+                style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}
               >
                 S
               </div>

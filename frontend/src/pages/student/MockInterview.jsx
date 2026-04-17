@@ -94,7 +94,7 @@ export default function MockInterview() {
                 <button key={r} onClick={() => setRole(r)}
                   className="p-3 rounded-xl font-body text-xs text-center transition-all duration-200"
                   style={role === r
-                    ? { background: 'var(--accent)', color: 'white' }
+                    ? { background: 'var(--accent)', color: 'var(--neon-box-text)' }
                     : { background: 'var(--bg-input)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}>
                   {r}
                 </button>
@@ -168,14 +168,14 @@ export default function MockInterview() {
                   )}
                   <div className="max-w-[80%] rounded-2xl px-4 py-3"
                     style={msg.role === 'user'
-                      ? { background: 'var(--accent)', color: 'white', borderBottomRightRadius: 4 }
+                      ? { background: 'var(--accent)', color: 'var(--neon-box-text)', borderBottomRightRadius: 4 }
                       : { background: 'var(--bg-input)', color: 'var(--text-primary)', borderBottomLeftRadius: 4 }}>
                     <p className="font-body text-sm leading-relaxed whitespace-pre-line">{msg.content}</p>
                   </div>
                   {msg.role === 'user' && (
                     <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{ background: 'var(--accent)' }}>
-                      <User size={14} className="text-white" />
+                      <User size={14} style={{ color: 'var(--neon-box-text)' }} />
                     </div>
                   )}
                 </div>

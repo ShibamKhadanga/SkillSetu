@@ -202,8 +202,8 @@ export default function StudentMessages() {
                 onMouseOver={e => { if (selected !== convo.conversation_id) e.currentTarget.style.background = 'var(--bg-input)' }}
                 onMouseOut={e => { if (selected !== convo.conversation_id) e.currentTarget.style.background = 'transparent' }}>
                 <div className="relative flex-shrink-0">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold"
-                    style={{ background: 'var(--accent)' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold"
+                    style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                     {(convo.other_user?.name || 'U')[0].toUpperCase()}
                   </div>
                   {convo.online && (
@@ -218,8 +218,8 @@ export default function StudentMessages() {
                   </div>
                   <p className="font-body text-xs truncate mt-0.5" style={{ color: 'var(--text-secondary)' }}>{convo.last_message || 'No messages yet'}</p>
                   {convo.unread_count > 0 && (
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-xs font-body font-bold mt-1"
-                      style={{ background: 'var(--accent)', fontSize: 10 }}>
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-body font-bold mt-1"
+                      style={{ background: 'var(--accent)', color: 'var(--neon-box-text)', fontSize: 10 }}>
                       {convo.unread_count}
                     </span>
                   )}
@@ -233,8 +233,8 @@ export default function StudentMessages() {
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
           <div className="flex items-center gap-3 p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-display font-bold"
-              style={{ background: 'var(--accent)' }}>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold"
+              style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
               {(currentConvo?.other_user?.name || 'R')[0].toUpperCase()}
             </div>
             <div>
@@ -256,15 +256,15 @@ export default function StudentMessages() {
             {currentMessages.map(msg => (
               <div key={msg.id} className={`flex gap-2 ${msg.is_mine ? 'justify-end' : 'justify-start'}`}>
                 {!msg.is_mine && (
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                    style={{ background: 'var(--accent)' }}>
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                     {(currentConvo?.other_user?.name || 'R')[0].toUpperCase()}
                   </div>
                 )}
                 <div className="max-w-[70%]">
                   <div className="rounded-2xl px-4 py-2.5"
                     style={msg.is_mine
-                      ? { background: 'var(--accent)', color: 'white', borderBottomRightRadius: 4 }
+                      ? { background: 'var(--accent)', color: 'var(--neon-box-text)', borderBottomRightRadius: 4 }
                       : { background: 'var(--bg-input)', color: 'var(--text-primary)', borderBottomLeftRadius: 4 }}>
                     <p className="font-body text-sm leading-relaxed">{msg.content}</p>
                   </div>

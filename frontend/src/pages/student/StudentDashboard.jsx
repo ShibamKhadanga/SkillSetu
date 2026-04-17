@@ -9,6 +9,14 @@ import {
 import { useAuthStore } from '@/store/authStore'
 import api from '@/services/api'
 
+const getGreeting = () => {
+  const h = new Date().getHours()
+  if (h < 12) return 'Good morning ☀️'
+  if (h < 17) return 'Good afternoon 🌤️'
+  if (h < 21) return 'Good evening 🌇'
+  return 'Good night 🌙'
+}
+
 const Skeleton = ({ className }) => (
   <div className={`skeleton rounded-xl ${className}`} />
 )
@@ -38,7 +46,7 @@ const QuickAction = ({ to, icon: Icon, title, desc, badge }) => (
       <div className="flex items-center gap-2">
         <p className="font-display font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{title}</p>
         {badge && (
-          <span className="text-xs px-2 py-0.5 rounded-full font-body" style={{ background: 'var(--accent)', color: 'white' }}>
+          <span className="text-xs px-2 py-0.5 rounded-full font-body" style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
             {badge}
           </span>
         )}
@@ -53,8 +61,8 @@ const QuickAction = ({ to, icon: Icon, title, desc, badge }) => (
 const JobMatchCard = ({ job }) => (
   <div className="glass-card-hover rounded-2xl p-4">
     <div className="flex items-start justify-between gap-3 mb-3">
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0"
-        style={{ background: 'var(--accent)' }}>
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
+        style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
         {job.company?.[0] || 'C'}
       </div>
       <div className="flex-1 min-w-0">
@@ -133,10 +141,23 @@ export default function StudentDashboard() {
           setIsNewUser(true)
         }
       } catch {
-        // API failed — show empty state, NOT fake data
-        setIsNewUser(true)
+        // API failed — try fetching just the profile strength
+        let profileStrength = 0
+        try {
+          const profileRes = await api.get('/student/profile')
+          profileStrength = profileRes.data?.data?.profile_strength || 0
+        } catch { /* ignore */ }
+
+        // Try fetching applications count
+        let appsCount = 0
+        try {
+          const appsRes = await api.get('/applications/my')
+          appsCount = (appsRes.data?.data || []).length
+        } catch { /* ignore */ }
+
+        setIsNewUser(profileStrength === 0 && appsCount === 0)
         setData({
-          stats: { profileStrength: 0, jobMatches: 0, applications: 0, interviews: 0 },
+          stats: { profileStrength, jobMatches: 0, applications: appsCount, interviews: 0 },
           skills: [],
           suggestedRole: null,
           roadmapProgress: 0,
@@ -194,36 +215,35 @@ export default function StudentDashboard() {
           style={{ backgroundImage: 'radial-gradient(circle at 80% 50%, white, transparent 60%)' }} />
         <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="font-body text-white/80 text-sm mb-1">Good morning 👋</p>
-            <h2 className="font-display font-black text-2xl text-white mb-1">
+            <p className="font-body text-sm mb-1" style={{ color: 'var(--neon-box-text)', opacity: 0.8 }}>{getGreeting()}</p>
+            <h2 className="font-display font-black text-2xl mb-1" style={{ color: 'var(--neon-box-text)' }}>
               Welcome back, {user?.name?.split(' ')[0] || 'Student'}!
             </h2>
-            <p className="font-body text-white/80 text-sm">
+            <p className="font-body text-sm" style={{ color: 'var(--neon-box-text)', opacity: 0.8 }}>
               {data?.suggestedRole
-                ? <>AI suggests you're best suited for: <strong className="text-white">{data.suggestedRole}</strong></>
+                ? <>AI suggests you're best suited for: <strong style={{ color: 'var(--neon-box-text)' }}>{data.suggestedRole}</strong></>
                 : 'Complete your profile to get AI-powered job suggestions!'}
             </p>
           </div>
           <div className="flex-shrink-0">
-            <div className="text-center bg-white/20 backdrop-blur rounded-2xl p-4">
-              <p className="font-display font-black text-3xl text-white">{data?.stats?.profileStrength ?? 0}%</p>
-              <p className="font-body text-white/80 text-xs">Profile Complete</p>
-              <Link to="/student/profile" className="text-white/90 text-xs underline mt-1 inline-block">
+            <div className="text-center backdrop-blur rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.2)' }}>
+              <p className="font-display font-black text-3xl" style={{ color: 'var(--neon-box-text)' }}>{data?.stats?.profileStrength ?? 0}%</p>
+              <p className="font-body text-xs" style={{ color: 'var(--neon-box-text)', opacity: 0.8 }}>Profile Complete</p>
+              <Link to="/student/profile" className="text-xs underline mt-1 inline-block" style={{ color: 'var(--neon-box-text)', opacity: 0.9 }}>
                 {(data?.stats?.profileStrength ?? 0) < 50 ? 'Complete now →' : 'View profile →'}
               </Link>
             </div>
           </div>
         </div>
         <div className="relative mt-4">
-          <div className="h-2 rounded-full bg-white/20">
-            <div className="h-2 rounded-full bg-white transition-all duration-1000"
-              style={{ width: `${data?.stats?.profileStrength ?? 0}%` }} />
+          <div className="h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }}>
+            <div className="h-2 rounded-full transition-all duration-1000" style={{ width: `${data?.stats?.profileStrength ?? 0}%`, background: 'var(--neon-box-text)' }} />
           </div>
         </div>
       </div>
 
       {/* ── Stats Grid ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
         <StatCard icon={Target}        label="Job Matches"   value={data?.stats?.jobMatches   ?? 0} sub="AI matched" />
         <StatCard icon={ClipboardList} label="Applications"  value={data?.stats?.applications ?? 0} sub="sent" />
         <StatCard icon={Mic}           label="Interviews"    value={data?.stats?.interviews    ?? 0} sub="scheduled" />

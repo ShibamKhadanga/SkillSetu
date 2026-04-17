@@ -87,24 +87,22 @@ async def update_status(
     app.updated_at = datetime.utcnow()
     await db.commit()
 
-    # Notify the student (in-app only; WhatsApp/SMS optional)
+    # Notify the student (in-app + WhatsApp)
     jr  = await db.execute(select(Job).where(Job.id == app.job_id))
     job = jr.scalar_one_or_none()
-    msgs = {
-        "reviewing": "Your application is under review 🔍",
-        "interview": "🎉 You've been shortlisted for an interview!",
-        "offered":   "🎊 Congratulations! You have received a job offer!",
-        "rejected":  "Your application was not selected this time. Keep applying! 💪",
-    }
-    if new_status in msgs:
-        from models.models import Notification
-        import uuid
-        db.add(Notification(
-            id=str(uuid.uuid4()), user_id=app.student_id,
-            title=f"Application update — {job.title if job else 'Job'}",
-            body=msgs[new_status], type="application",
-            link="/student/applications",
-        ))
-        await db.commit()
+
+    if new_status in ("reviewing", "interview", "offered", "rejected"):
+        from services.notification_service import notify_application_status
+        # Get student's phone for WhatsApp
+        student_r = await db.execute(select(User).where(User.id == app.student_id))
+        student   = student_r.scalar_one_or_none()
+        await notify_application_status(
+            db=db,
+            student_id=app.student_id,
+            student_phone=student.phone if student else None,
+            job_title=job.title if job else "Job",
+            company=job.company if job else "Company",
+            new_status=new_status,
+        )
 
     return {"success": True, "message": f"Status updated to '{new_status}'"}

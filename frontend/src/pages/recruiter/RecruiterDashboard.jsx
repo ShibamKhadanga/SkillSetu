@@ -91,9 +91,20 @@ export default function RecruiterDashboard() {
 
         if (activeJobs.length === 0 && totalApps === 0) setIsNewUser(true)
       } catch {
-        // API failed — show empty state, NOT fake data
-        setIsNewUser(true)
-        setData({ activeJobs: [], totalApps: 0, shortlisted: 0, interviews: 0, recentApps: [], jobs: [] })
+        // API failed — try fetching each independently
+        let activeJobs = []
+        let totalApps = 0
+        try {
+          const jobsRes = await api.get('/jobs/my-jobs')
+          activeJobs = (jobsRes.data?.data || []).filter(j => j.is_active)
+        } catch { /* ignore */ }
+        try {
+          const appsRes = await api.get('/applications/recruiter')
+          totalApps = (appsRes.data?.data || []).length
+        } catch { /* ignore */ }
+
+        if (activeJobs.length === 0 && totalApps === 0) setIsNewUser(true)
+        setData({ activeJobs, totalApps, shortlisted: 0, interviews: 0, recentApps: [], jobs: activeJobs.slice(0, 3) })
       } finally {
         setLoading(false)
       }
@@ -144,20 +155,20 @@ export default function RecruiterDashboard() {
         <div className="absolute inset-0 opacity-10"
           style={{ backgroundImage: 'radial-gradient(circle at 80% 50%, white, transparent 60%)' }} />
         <div className="relative">
-          <p className="font-body text-white/80 text-sm mb-1">Welcome back 👋</p>
-          <h2 className="font-display font-black text-2xl text-white mb-1">
+          <p className="font-body text-sm mb-1" style={{ color: 'var(--neon-box-text)', opacity: 0.8 }}>Welcome back 👋</p>
+          <h2 className="font-display font-black text-2xl mb-1" style={{ color: 'var(--neon-box-text)' }}>
             {user?.company || user?.name || 'Recruiter'}
           </h2>
-          <p className="font-body text-white/80 text-sm">
+          <p className="font-body text-sm" style={{ color: 'var(--neon-box-text)', opacity: 0.8 }}>
             {data?.activeJobs?.length > 0
-              ? <>You have <strong className="text-white">{data.activeJobs.length} active job posting{data.activeJobs.length !== 1 ? 's' : ''}</strong> with <strong className="text-white">{data.totalApps} total applicants</strong>.</>
+              ? <>You have <strong style={{ color: 'var(--neon-box-text)' }}>{data.activeJobs.length} active job posting{data.activeJobs.length !== 1 ? 's' : ''}</strong> with <strong style={{ color: 'var(--neon-box-text)' }}>{data.totalApps} total applicants</strong>.</>
               : 'Post your first job to start receiving applications!'}
           </p>
         </div>
       </div>
 
       {/* ── Stats ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
         <StatCard icon={Briefcase}     label="Active Jobs"        value={data?.activeJobs?.length ?? 0} trend={0} />
         <StatCard icon={ClipboardList} label="Total Applications" value={data?.totalApps    ?? 0}       trend={0} />
         <StatCard icon={Users}         label="Shortlisted"        value={data?.shortlisted  ?? 0}       trend={0} />
@@ -180,8 +191,8 @@ export default function RecruiterDashboard() {
             <div className="space-y-3">
               {data.recentApps.map(app => (
                 <div key={app.id} className="glass-card-hover rounded-2xl p-4 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0"
-                    style={{ background: 'var(--accent)' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
+                    style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                     {app.name?.[0]?.toUpperCase() || 'A'}
                   </div>
                   <div className="flex-1 min-w-0">

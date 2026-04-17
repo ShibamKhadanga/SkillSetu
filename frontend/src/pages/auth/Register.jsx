@@ -48,8 +48,8 @@ export default function Register() {
       <div className="w-full max-w-lg">
         {/* Logo */}
         <div className="flex items-center gap-2 mb-8 justify-center">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-white text-xl"
-            style={{ background: 'var(--accent)' }}>S</div>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-xl"
+            style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>S</div>
           <span className="font-display font-bold text-2xl" style={{ color: 'var(--text-primary)' }}>
             Skill<span style={{ color: 'var(--accent)' }}>Setu</span>
           </span>
@@ -74,7 +74,7 @@ export default function Register() {
               className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-body font-medium text-sm transition-all duration-200"
               style={role === id ? {
                 background: 'var(--accent)',
-                color: 'white',
+                color: 'var(--neon-box-text)',
                 boxShadow: '0 4px 12px var(--shadow)',
               } : {
                 color: 'var(--text-muted)',

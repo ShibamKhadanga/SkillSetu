@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
 import {
@@ -22,7 +22,7 @@ const INTERESTS = [
 const TabBtn = ({ active, onClick, children }) => (
   <button onClick={onClick}
     className="px-4 py-2 rounded-xl font-body text-sm font-medium transition-all duration-200 whitespace-nowrap"
-    style={active ? { background: 'var(--accent)', color: 'white' } : { color: 'var(--text-secondary)' }}
+    style={active ? { background: 'var(--accent)', color: 'var(--neon-box-text)' } : { color: 'var(--text-secondary)' }}
     onMouseOver={e => { if (!active) e.currentTarget.style.background = 'var(--accent-light)' }}
     onMouseOut={e => { if (!active) e.currentTarget.style.background = 'transparent' }}>
     {children}
@@ -89,6 +89,9 @@ export default function StudentProfile() {
   const [certificates, setCertificates] = useState([])
   const [uploadedFiles, setUploadedFiles] = useState([])
   const [profileStrength, setProfileStrength] = useState(0)
+  const [avatarUrl, setAvatarUrl] = useState(null)
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const avatarInputRef = useRef(null)
 
   const { register, handleSubmit, reset } = useForm({ defaultValues: user })
 
@@ -113,6 +116,7 @@ export default function StudentProfile() {
           setCertificates(d.certificates || [])
           setUploadedFiles((d.uploaded_documents || []).map(doc => ({ name: doc.name, url: doc.url, status: 'done' })))
           setProfileStrength(d.profile_strength || 0)
+          setAvatarUrl(d.avatar_url || null)
         }
       } catch {
         // API error - keep defaults
@@ -145,6 +149,35 @@ export default function StudentProfile() {
     accept: { 'application/pdf': ['.pdf'], 'image/*': ['.png', '.jpg', '.jpeg'], 'application/msword': ['.doc', '.docx'] },
     maxSize: 10 * 1024 * 1024,
   })
+
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type)) {
+      toast.error('Only image files are allowed (JPG, PNG, WebP)')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image too large — max 2 MB')
+      return
+    }
+    setAvatarUploading(true)
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      const res = await api.post('/student/upload-avatar', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      const url = res.data?.data?.avatar_url
+      if (url) {
+        setAvatarUrl(url)
+        updateUser({ avatar_url: url })
+        toast.success('Profile photo updated! 📸')
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Failed to upload photo')
+    } finally {
+      setAvatarUploading(false)
+    }
+  }
 
   const extractSkillsWithAI = async () => {
     setAiLoading(true)
@@ -238,13 +271,20 @@ export default function StudentProfile() {
       {tab === 'personal' && (
         <div className="glass-card rounded-2xl p-6 space-y-5">
           <div className="flex items-center gap-4 mb-2">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-white font-display font-black text-3xl"
-              style={{ background: 'var(--accent)' }}>
-              {user?.name?.[0] || 'S'}
-            </div>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="Avatar" className="w-20 h-20 rounded-2xl object-cover" />
+            ) : (
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center font-display font-black text-3xl"
+                style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
+                {user?.name?.[0] || 'S'}
+              </div>
+            )}
             <div>
-              <button type="button" className="btn-outline text-sm py-2 flex items-center gap-2">
-                <Upload size={14} /> Upload Photo
+              <input type="file" ref={avatarInputRef} className="hidden" accept="image/jpeg,image/png,image/webp,image/gif" onChange={handleAvatarUpload} />
+              <button type="button" onClick={() => avatarInputRef.current?.click()} disabled={avatarUploading}
+                className="btn-outline text-sm py-2 flex items-center gap-2 disabled:opacity-60">
+                {avatarUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                {avatarUploading ? 'Uploading...' : 'Upload Photo'}
               </button>
               <p className="text-xs mt-1 font-body" style={{ color: 'var(--text-muted)' }}>JPG, PNG up to 2MB</p>
             </div>
@@ -496,7 +536,7 @@ export default function StudentProfile() {
                   <button key={interest} type="button"
                     onClick={() => setInterests(prev => selected ? prev.filter(i => i !== interest) : [...prev, interest])}
                     className="text-sm px-3 py-1.5 rounded-full font-body transition-all duration-200"
-                    style={selected ? { background: 'var(--accent)', color: 'white' }
+                    style={selected ? { background: 'var(--accent)', color: 'var(--neon-box-text)' }
                       : { background: 'var(--bg-input)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}>
                     {interest}
                   </button>

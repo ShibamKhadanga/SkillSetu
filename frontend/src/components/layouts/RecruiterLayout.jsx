@@ -59,28 +59,30 @@ export default function RecruiterLayout() {
     <div className="flex flex-col h-full">
       <div className="p-5 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-black text-white"
-            style={{ background: 'var(--accent)' }}>S</div>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-black"
+            style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>S</div>
           <div>
             <span className="font-display font-bold text-base" style={{ color: 'var(--text-primary)' }}>
               Skill<span style={{ color: 'var(--accent)' }}>Setu</span>
             </span>
-            <p className="text-xs font-body" style={{ color: 'var(--accent)' }}>Recruiter Portal</p>
+            <p className="text-xs font-body leading-none" style={{ color: 'var(--text-muted)' }}>Kaushal se Rojgar tak</p>
           </div>
         </Link>
       </div>
 
       <div className="p-4 mx-3 my-3 rounded-xl" style={{ background: 'var(--accent-light)', border: '1px solid var(--border)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm text-white flex-shrink-0"
-            style={{ background: 'var(--accent)' }}>
+          <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
+            style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
             {user?.name?.[0]?.toUpperCase() || 'R'}
           </div>
           <div className="min-w-0">
             <p className="font-display font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>
               {user?.company || user?.name || 'Company'}
             </p>
-            <p className="font-body text-xs" style={{ color: 'var(--text-muted)' }}>Recruiter</p>
+            <p className="font-body text-xs truncate" style={{ color: 'var(--accent)' }}>
+              Recruiter Portal
+            </p>
           </div>
         </div>
       </div>
@@ -103,37 +105,28 @@ export default function RecruiterLayout() {
         })}
       </nav>
 
-      <div className="p-3 border-t space-y-1" style={{ borderColor: 'var(--border-subtle)' }}>
-        {/* ✅ Feedback */}
+      <div className="p-2 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+        {/* Feedback */}
         <FeedbackModal />
 
-        <button onClick={toggleTheme}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm w-full transition-all duration-200"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'var(--accent-light)'; e.currentTarget.style.color = 'var(--text-primary)' }}
-          onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
-          {isDark ? <Sun size={17} /> : <Moon size={17} />}
-          {isDark ? 'Light Mode' : 'Dark Mode'}
-        </button>
-
-        {/* ✅ Delete Account */}
-        <button onClick={() => setShowDeleteConfirm(true)}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm w-full transition-all duration-200"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
-          onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
-          <Trash2 size={17} />
-          Delete Account
-        </button>
-
-        <button onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm w-full transition-all duration-200"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
-          onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
-          <LogOut size={17} />
-          Sign Out
-        </button>
+        {/* Delete + Logout — single row */}
+        <div className="flex items-center gap-1 px-1 py-1">
+          <button onClick={() => setShowDeleteConfirm(true)}
+            className="flex items-center justify-center w-9 h-9 rounded-lg transition-all"
+            style={{ color: 'var(--text-muted)' }}
+            title="Delete Account"
+            onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
+            onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}>
+            <Trash2 size={15} />
+          </button>
+          <button onClick={handleLogout}
+            className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg font-body text-xs font-semibold transition-all"
+            style={{ color: 'var(--text-muted)' }}
+            onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#ef4444' }}
+            onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}>
+            <LogOut size={14} /> Sign Out
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -207,12 +200,20 @@ export default function RecruiterLayout() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <button onClick={toggleTheme}
+              className="w-9 h-9 rounded-xl flex items-center justify-center transition-all"
+              style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}
+              title={isDark ? 'Light Mode' : 'Dark Mode'}>
+              {isDark ? <Sun size={17} /> : <Moon size={17} />}
+            </button>
+            {/* Notifications Bell */}
             <button className="relative w-9 h-9 rounded-xl flex items-center justify-center"
               style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}>
               <Bell size={17} />
             </button>
-            <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm text-white"
-              style={{ background: 'var(--accent)' }}>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm"
+              style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
               {user?.name?.[0]?.toUpperCase() || 'R'}
             </div>
           </div>

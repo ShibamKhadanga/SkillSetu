@@ -41,14 +41,18 @@ async def send_message(
     )
     db.add(msg)
 
-    # In-app notification for student when recruiter writes
+    # In-app + WhatsApp notification when recruiter messages a student
     if receiver.role == "student" and current_user.role == "recruiter":
-        db.add(Notification(
-            id=str(uuid.uuid4()), user_id=receiver.id,
-            title=f"New message from {current_user.name}",
-            body=body.content[:100], type="message",
-            link="/student/messages",
-        ))
+        try:
+            from services.notification_service import create_notification
+            await create_notification(
+                db=db, user_id=receiver.id,
+                title=f"New message from {current_user.name}",
+                body=body.content[:100], notif_type="message",
+                link="/student/messages", phone=receiver.phone,
+            )
+        except Exception:
+            pass  # Non-critical
 
     await db.commit()
     return {"success": True,

@@ -61,8 +61,8 @@ export default function Login() {
         />
         <div className="relative text-center">
           <div
-            className="w-24 h-24 rounded-3xl flex items-center justify-center font-display font-black text-white text-5xl mx-auto mb-8 animate-float"
-            style={{ background: 'var(--accent)', boxShadow: '0 20px 60px var(--shadow)' }}
+            className="w-24 h-24 rounded-3xl flex items-center justify-center font-display font-black text-5xl mx-auto mb-8 animate-float"
+            style={{ background: 'var(--accent)', boxShadow: '0 20px 60px var(--shadow)', color: 'var(--neon-box-text)' }}
           >
             S
           </div>
@@ -84,8 +84,8 @@ export default function Login() {
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8 justify-center">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-white text-xl"
-              style={{ background: 'var(--accent)' }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-xl"
+              style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}
             >S</div>
             <span className="font-display font-bold text-2xl" style={{ color: 'var(--text-primary)' }}>
               Skill<span style={{ color: 'var(--accent)' }}>Setu</span>

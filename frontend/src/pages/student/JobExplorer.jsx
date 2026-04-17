@@ -213,8 +213,8 @@ export default function JobExplorer() {
             <div key={job.id} className="glass-card-hover rounded-2xl p-5 cursor-pointer"
               onClick={() => setSelectedJob(selectedJob?.id === job.id ? null : job)}>
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-display font-bold text-lg flex-shrink-0"
-                  style={{ background: 'var(--accent)' }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-lg flex-shrink-0"
+                  style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
                   {job.company?.[0] || 'J'}
                 </div>
                 <div className="flex-1 min-w-0">

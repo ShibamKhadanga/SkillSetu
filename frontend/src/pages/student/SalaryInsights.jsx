@@ -118,8 +118,8 @@ export default function SalaryInsights() {
                 {(result.top_companies || []).map((c, i) => (
                   <div key={i} className="flex items-center gap-3 p-2 rounded-lg"
                     style={{ background: 'var(--bg-input)' }}>
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white font-display font-bold text-xs"
-                      style={{ background: 'var(--accent)' }}>{c[0]}</div>
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center font-display font-bold text-xs"
+                      style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>{c[0]}</div>
                     <span className="font-body text-sm" style={{ color: 'var(--text-primary)' }}>{c}</span>
                   </div>
                 ))}

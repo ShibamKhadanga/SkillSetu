@@ -120,8 +120,8 @@ export default function StudentLayout() {
       {/* Logo */}
       <div className="p-5 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-black text-white"
-            style={{ background: 'var(--accent)' }}>S</div>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-black"
+            style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>S</div>
           <div>
             <span className="font-display font-bold text-base" style={{ color: 'var(--text-primary)' }}>
               Skill<span style={{ color: 'var(--accent)' }}>Setu</span>
@@ -136,8 +136,8 @@ export default function StudentLayout() {
       {/* User info */}
       <div className="p-4 mx-3 my-3 rounded-xl" style={{ background: 'var(--accent-light)', border: '1px solid var(--border)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm text-white flex-shrink-0"
-            style={{ background: 'var(--accent)' }}>
+          <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
+            style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
             {user?.name?.[0]?.toUpperCase() || 'S'}
           </div>
           <div className="min-w-0">
@@ -182,14 +182,8 @@ export default function StudentLayout() {
         {/* Feedback */}
         <FeedbackModal />
 
-        {/* Theme + Language — single row */}
+        {/* Language — single row */}
         <div className="flex items-center gap-1 px-1 py-1">
-          <button onClick={toggleTheme}
-            className="flex items-center justify-center w-9 h-9 rounded-lg transition-all"
-            style={{ color: 'var(--text-secondary)', background: 'var(--bg-input)' }}
-            title={isDark ? t('lightMode') : t('darkMode')}>
-            {isDark ? <Sun size={15} /> : <Moon size={15} />}
-          </button>
           <div className="flex items-center gap-1.5 flex-1 px-2 py-1.5 rounded-lg" style={{ background: 'var(--bg-input)' }}>
             <Languages size={14} style={{ color: 'var(--text-muted)' }} />
             <select value={lang} onChange={e => setLang(e.target.value)}
@@ -296,6 +290,13 @@ export default function StudentLayout() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <button onClick={toggleTheme}
+              className="w-9 h-9 rounded-xl flex items-center justify-center transition-all"
+              style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}
+              title={isDark ? t('lightMode') : t('darkMode')}>
+              {isDark ? <Sun size={17} /> : <Moon size={17} />}
+            </button>
             {/* Notifications Bell with Dropdown */}
             <div className="relative" ref={notifRef}>
               <button
@@ -304,8 +305,8 @@ export default function StudentLayout() {
                 style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}>
                 <Bell size={17} />
                 {notifCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-white text-xs flex items-center justify-center font-body font-bold"
-                    style={{ background: 'var(--accent)', fontSize: '10px' }}>
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-xs flex items-center justify-center font-body font-bold"
+                    style={{ background: 'var(--accent)', fontSize: '10px', color: 'var(--neon-box-text)' }}>
                     {notifCount}
                   </span>
                 )}
@@ -378,8 +379,8 @@ export default function StudentLayout() {
             </div>
 
             <Link to="/student/profile"
-              className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm text-white flex-shrink-0"
-              style={{ background: 'var(--accent)' }}>
+              className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm flex-shrink-0"
+              style={{ background: 'var(--accent)', color: 'var(--neon-box-text)' }}>
               {user?.name?.[0]?.toUpperCase() || 'S'}
             </Link>
           </div>

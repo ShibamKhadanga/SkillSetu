@@ -38,6 +38,33 @@ async def create_job(
     job = Job(id=str(uuid.uuid4()), recruiter_id=current_user.id, **body.model_dump())
     db.add(job)
     await db.commit()
+
+    # Notify matching students (in-app + WhatsApp)
+    if body.notify_candidates:
+        try:
+            from services.notification_service import notify_new_job
+            from services.matching_service import calculate_match_score
+            students_r = await db.execute(
+                select(User, StudentProfile)
+                .join(StudentProfile, User.id == StudentProfile.user_id)
+                .where(User.role == "student")
+            )
+            for student, profile in students_r.all():
+                match = calculate_match_score(
+                    profile.skills or [], body.required_skills or []
+                )
+                if match >= 50:  # Only notify if decent match
+                    await notify_new_job(
+                        db=db,
+                        student_id=student.id,
+                        student_phone=student.phone,
+                        job_title=body.title,
+                        company=body.company,
+                        match_score=match,
+                    )
+        except Exception:
+            pass  # Non-critical — don't block job creation
+
     return {"success": True,
             "data": {"id": job.id},
             "message": "Job posted! AI is matching candidates... 🎯"}
@@ -149,6 +176,22 @@ async def apply_to_job(
     db.add(app)
     job.applicants_count += 1
     await db.commit()
+
+    # Notify the recruiter (in-app + WhatsApp)
+    try:
+        from services.notification_service import notify_new_application
+        recruiter_r = await db.execute(select(User).where(User.id == job.recruiter_id))
+        recruiter   = recruiter_r.scalar_one_or_none()
+        await notify_new_application(
+            db=db,
+            recruiter_id=job.recruiter_id,
+            recruiter_phone=recruiter.phone if recruiter else None,
+            student_name=current_user.name,
+            job_title=job.title,
+            match_score=match,
+        )
+    except Exception:
+        pass  # Non-critical — don't block the application
 
     return {"success": True,
             "message": "Application submitted successfully! 🎉",
